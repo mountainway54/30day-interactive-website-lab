@@ -97,9 +97,6 @@ onUnmounted(() => {
     class="moving-box"
     :data-animation-mode="mode"
     :data-running="isRunning"
-  >
-    <span>DOM</span>
-    <small>{{ isRunning ? 'running' : 'still' }}</small>
-  </div>
+    aria-label="移動中的方塊"
+  ></div>
 </template>
-

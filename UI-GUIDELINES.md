@@ -27,9 +27,12 @@
 ## 字體
 
 - 一般文字：`Aptos`、`Noto Sans TC`、`Microsoft JhengHei`、sans-serif。
-- 主標題：`Georgia`、`Times New Roman`、serif。
+- 區塊主標題：`20px`，使用 `Georgia`、`Times New Roman`、serif，字重 `700`。
+- 主標題中的英文使用 `.heading-english` 包覆，改用 `Aptos`、`Noto Sans TC`、`Microsoft JhengHei`、sans-serif，字重 `800`；中文維持襯線體。
 - 狀態、標籤與技術資訊：`Cascadia Code`、`Consolas`、monospace。
-- 小標使用大寫、較寬字距，字級約 `0.68rem–0.72rem`。
+- 主標題上方的英文小標使用 `Cascadia Code`、`Consolas`、monospace，字重 `700`。
+- 英文小標統一顯示為大寫、使用較寬字距，字級 `0.72rem`，並套用強調色。
+- Demo 內的狀態標籤與技術資訊維持 monospace，字級約 `0.68rem–0.72rem`。
 - 內文行高以 `1.6–1.7` 為主。
 
 ## 頁面結構

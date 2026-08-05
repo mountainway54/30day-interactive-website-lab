@@ -2,7 +2,9 @@
 import { computed, nextTick, ref } from 'vue'
 
 import AnimationCallbackPanel from './AnimationCallbackPanel.vue'
+import DomTimingDemo from './DomTimingDemo.vue'
 import MovingBox from './MovingBox.vue'
+import UpdatedTimingDemo from './UpdatedTimingDemo.vue'
 
 const cleanBoxMounted = ref(false)
 const leakyBoxMounted = ref(false)
@@ -63,10 +65,25 @@ function resetDemo() {
       <span>01 / 30</span>
     </nav>
 
+    <section class="experiment day-01-dom-section" aria-labelledby="dom-section-title">
+      <header class="section-heading">
+        <div>
+          <p>animation before onMounted</p>
+          <h2 id="dom-section-title"><span class="heading-english">DOM</span> 掛載前無法操作元素</h2>
+        </div>
+      </header>
+
+      <p class="day-01-section-description">
+        最常見的問題是在 <code>setup()</code> 或 <code>created()</code> 就操作 DOM。
+      </p>
+
+      <DomTimingDemo />
+    </section>
+
     <section class="experiment" aria-labelledby="experiment-title">
       <header class="section-heading">
         <div>
-          <p>unmounted</p>
+          <p>Animation not cleaned up</p>
           <h2 id="experiment-title">元件卸載後動畫仍在執行</h2>
         </div>
         <div class="status" :data-active="isMounted">
@@ -122,6 +139,16 @@ function resetDemo() {
       </div>
     </section>
 
+    <section class="experiment" aria-labelledby="updated-section-title">
+      <header class="section-heading">
+        <div>
+          <p>onMounted vs onUpdated</p>
+          <h2 id="updated-section-title">更新後重新取得動畫終點</h2>
+        </div>
+      </header>
+
+      <UpdatedTimingDemo />
+    </section>
+
   </main>
 </template>
-
