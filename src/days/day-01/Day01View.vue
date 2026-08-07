@@ -1,59 +1,62 @@
 <script setup>
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, ref } from "vue";
 
-import AnimationCallbackPanel from './AnimationCallbackPanel.vue'
-import DomTimingDemo from './DomTimingDemo.vue'
-import MovingBox from './MovingBox.vue'
-import UpdatedTimingDemo from './UpdatedTimingDemo.vue'
+import AnimationCallbackPanel from "./AnimationCallbackPanel.vue";
+import DomTimingDemo from "./DomTimingDemo.vue";
+import MovingBox from "./MovingBox.vue";
+import UpdatedTimingDemo from "./UpdatedTimingDemo.vue";
 
-const cleanMounted = ref(false)
-const leakyMounted = ref(false)
-const orphanFrames = ref(0)
-const leakedCallbacks = ref(0)
-const anyMounted = computed(() => cleanMounted.value || leakyMounted.value)
-const bothMounted = computed(() => cleanMounted.value && leakyMounted.value)
+const cleanMounted = ref(false);
+const leakyMounted = ref(false);
+const orphanFrames = ref(0);
+const leakedCallbacks = ref(0);
+const anyMounted = computed(() => cleanMounted.value || leakyMounted.value);
+const bothMounted = computed(() => cleanMounted.value && leakyMounted.value);
 const callbackCount = computed(
-  () => Number(cleanMounted.value) + Number(leakyMounted.value) + leakedCallbacks.value,
-)
+  () =>
+    Number(cleanMounted.value) +
+    Number(leakyMounted.value) +
+    leakedCallbacks.value,
+);
 
 function logTrace(message) {
-  console.log(message)
+  console.log(message);
 }
 
 function mountBoxes() {
-  cleanMounted.value = true
-  leakyMounted.value = true
-  logTrace('兩個方塊已掛載')
+  cleanMounted.value = true;
+  leakyMounted.value = true;
+  logTrace("兩個方塊已掛載");
 }
 
 async function removeCleanBox() {
-  await nextTick()
-  cleanMounted.value = false
-  logTrace('上排方塊已移除，動畫已停止')
+  await nextTick();
+  cleanMounted.value = false;
+  logTrace("上排方塊已移除，動畫已停止");
 }
 
 async function removeLeakyBox() {
-  leakedCallbacks.value++
-  await nextTick()
-  leakyMounted.value = false
-  logTrace('下排方塊已移除，但動畫還在執行')
+  leakedCallbacks.value++;
+  await nextTick();
+  leakyMounted.value = false;
+  logTrace("下排方塊已移除，但動畫還在執行");
 }
 
 async function removeBoxes() {
-  const removals = []
+  const removals = [];
 
-  if (cleanMounted.value) removals.push(removeCleanBox())
-  if (leakyMounted.value) removals.push(removeLeakyBox())
+  if (cleanMounted.value) removals.push(removeCleanBox());
+  if (leakyMounted.value) removals.push(removeLeakyBox());
 
-  await Promise.all(removals)
+  await Promise.all(removals);
 }
 
 function countOrphanFrame() {
-  orphanFrames.value++
+  orphanFrames.value++;
 }
 
 function resetDemo() {
-  window.location.reload()
+  window.location.reload();
 }
 </script>
 
@@ -64,11 +67,16 @@ function resetDemo() {
       <span>01 / 30</span>
     </nav>
 
-    <section class="experiment day-01-dom-section" aria-labelledby="dom-section-title">
+    <section
+      class="experiment day-01-dom-section"
+      aria-labelledby="dom-section-title"
+    >
       <header class="section-heading">
         <div>
-          <p>animation before onMounted</p>
-          <h2 id="dom-section-title"><span class="heading-english">DOM</span> 掛載前無法操作元素</h2>
+          <p>Demo 1：</p>
+          <h2 id="dom-section-title">
+            是<span class="heading-english">Callback</span>來得太早
+          </h2>
         </div>
       </header>
 
@@ -82,12 +90,12 @@ function resetDemo() {
     <section class="experiment" aria-labelledby="experiment-title">
       <header class="section-heading">
         <div>
-          <p>Animation not cleaned up</p>
-          <h2 id="experiment-title">元件卸載後動畫仍在執行</h2>
+          <p>Demo 2</p>
+          <h2 id="experiment-title">元件離去，動畫仍在默默執行</h2>
         </div>
         <div class="status" :data-active="anyMounted">
           <span></span>
-          {{ anyMounted ? 'mounted' : 'unmounted' }}
+          {{ anyMounted ? "mounted" : "unmounted" }}
         </div>
       </header>
 
@@ -131,23 +139,29 @@ function resetDemo() {
         >
           掛載方塊
         </button>
-        <button class="keep-running-action" type="button" :disabled="!anyMounted" @click="removeBoxes">
+        <button
+          class="keep-running-action"
+          type="button"
+          :disabled="!anyMounted"
+          @click="removeBoxes"
+        >
           移除方塊
         </button>
-        <button class="secondary-action" type="button" @click="resetDemo">重設 Demo</button>
+        <button class="secondary-action" type="button" @click="resetDemo">
+          重設 Demo
+        </button>
       </div>
     </section>
 
     <section class="experiment" aria-labelledby="updated-section-title">
       <header class="section-heading">
         <div>
-          <p>onMounted vs onUpdated</p>
-          <h2 id="updated-section-title">更新後重新取得動畫終點</h2>
+          <p>Demo 3</p>
+          <h2 id="updated-section-title">終點變了，你卻還停留在原地</h2>
         </div>
       </header>
 
       <UpdatedTimingDemo />
     </section>
-
   </main>
 </template>
