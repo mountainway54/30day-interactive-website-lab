@@ -16,6 +16,15 @@ const router = createRouter({
         title: 'DOM 與 Vue 生命週期',
       },
     },
+    {
+      path: '/day-02',
+      name: 'day-02',
+      component: () => import('@/days/day-02/Day02View.vue'),
+      meta: {
+        day: 2,
+        title: '用 Input 控制動畫參數',
+      },
+    },
   ],
 })
 
