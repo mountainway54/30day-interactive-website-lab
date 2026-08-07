@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 
-import { sharedAnimationState } from './sharedAnimationState.js'
+import { sharedState } from './sharedAnimationState.js'
 
 const props = defineProps({
   cleanupEnabled: {
@@ -24,37 +24,37 @@ const box = ref(null)
 const isRunning = ref(false)
 
 let frameId = 0
-let orphanFrameCount = 0
+let orphanFrames = 0
 
-const animationState = sharedAnimationState[props.mode]
+const state = sharedState[props.mode]
 
-function animate() {
-  const ownElement = box.value
+function moveBox() {
+  const ownBox = box.value
 
-  if (!ownElement) {
-    orphanFrameCount++
+  if (!ownBox) {
+    orphanFrames++
     props.reportOrphanFrame()
 
   }
 
   // 故意讓未清理的舊動畫找到重新掛載的新方塊
-  const element = ownElement ?? document.querySelector(`[data-animation-mode="${props.mode}"]`)
+  const el = ownBox ?? document.querySelector(`[data-animation-mode="${props.mode}"]`)
 
-  if (!element) {
-    frameId = requestAnimationFrame(animate)
+  if (!el) {
+    frameId = requestAnimationFrame(moveBox)
     return
   }
 
-  const maxX = Math.max(element.parentElement.clientWidth - element.offsetWidth, 0)
+  const maxX = Math.max(el.parentElement.clientWidth - el.offsetWidth, 0)
 
-  animationState.xPosition += 2
+  state.xPosition += 2
 
-  if (animationState.xPosition >= maxX) {
-    animationState.xPosition = 0
+  if (state.xPosition >= maxX) {
+    state.xPosition = 0
   }
 
-  element.style.transform = `translate3d(${animationState.xPosition}px, 0, 0)`
-  frameId = requestAnimationFrame(animate)
+  el.style.transform = `translate3d(${state.xPosition}px, 0, 0)`
+  frameId = requestAnimationFrame(moveBox)
 }
 
 function startAnimation() {
@@ -65,7 +65,7 @@ function startAnimation() {
 
   isRunning.value = true
   emit('trace', '動畫開始')
-  frameId = requestAnimationFrame(animate)
+  frameId = requestAnimationFrame(moveBox)
 }
 
 function stopAnimation() {
@@ -75,7 +75,7 @@ function stopAnimation() {
 }
 
 onMounted(() => {
-  animationState.xPosition = 0
+  state.xPosition = 0
   emit('trace', '方塊 DOM 已經出現在頁面上')
   startAnimation()
 })

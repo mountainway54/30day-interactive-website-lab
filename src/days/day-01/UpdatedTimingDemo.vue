@@ -1,33 +1,31 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, onUpdated, ref } from 'vue'
 
-const mountedBoxElement = ref(null)
-const updatedBoxElement = ref(null)
-const mountedEndpointElement = ref(null)
-const updatedEndpointElement = ref(null)
-const endpointChanged = ref(false)
+const topBox = ref(null)
+const bottomBox = ref(null)
+const topEnd = ref(null)
+const bottomEnd = ref(null)
+const hasMoved = ref(false)
 
-let mountedAnimationFrameId = 0
-let updatedAnimationFrameId = 0
-let shouldRespondToUpdate = false
+let topFrameId = 0
+let bottomFrameId = 0
+let shouldMove = false
 
-function moveToEndpoint(boxElement, endpointElement, animationType) {
-  cancelAnimationFrame(
-    animationType === 'mounted' ? mountedAnimationFrameId : updatedAnimationFrameId,
-  )
+function moveToEnd(box, end, row) {
+  cancelAnimationFrame(row === 'top' ? topFrameId : bottomFrameId)
 
   function moveBox() {
-    const currentX = boxElement.offsetLeft
-    const targetX = endpointElement.offsetLeft
+    const currentX = box.offsetLeft
+    const targetX = end.offsetLeft
     const nextX = Math.min(currentX + 4, targetX)
 
-    boxElement.style.left = `${nextX}px`
+    box.style.left = `${nextX}px`
 
     if (nextX < targetX) {
       const frameId = requestAnimationFrame(moveBox)
 
-      if (animationType === 'mounted') mountedAnimationFrameId = frameId
-      else updatedAnimationFrameId = frameId
+      if (row === 'top') topFrameId = frameId
+      else bottomFrameId = frameId
     }
   }
 
@@ -37,75 +35,75 @@ function moveToEndpoint(boxElement, endpointElement, animationType) {
 onMounted(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-  moveToEndpoint(mountedBoxElement.value, mountedEndpointElement.value, 'mounted')
-  moveToEndpoint(updatedBoxElement.value, updatedEndpointElement.value, 'updated')
+  moveToEnd(topBox.value, topEnd.value, 'top')
+  moveToEnd(bottomBox.value, bottomEnd.value, 'bottom')
 })
 
 onUpdated(() => {
-  if (!shouldRespondToUpdate) return
+  if (!shouldMove) return
 
-  shouldRespondToUpdate = false
-  moveToEndpoint(updatedBoxElement.value, updatedEndpointElement.value, 'updated')
+  shouldMove = false
+  moveToEnd(bottomBox.value, bottomEnd.value, 'bottom')
 })
 
-async function changeEndpoint() {
-  shouldRespondToUpdate = true
-  endpointChanged.value = true
+async function changeEnd() {
+  shouldMove = true
+  hasMoved.value = true
   await nextTick()
 }
 
 async function resetDemo() {
-  cancelAnimationFrame(mountedAnimationFrameId)
-  cancelAnimationFrame(updatedAnimationFrameId)
+  cancelAnimationFrame(topFrameId)
+  cancelAnimationFrame(bottomFrameId)
 
-  endpointChanged.value = false
-  shouldRespondToUpdate = false
+  hasMoved.value = false
+  shouldMove = false
   await nextTick()
 
-  mountedBoxElement.value.style.left = '0px'
-  updatedBoxElement.value.style.left = '0px'
+  topBox.value.style.left = '0px'
+  bottomBox.value.style.left = '0px'
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-  moveToEndpoint(mountedBoxElement.value, mountedEndpointElement.value, 'mounted')
-  moveToEndpoint(updatedBoxElement.value, updatedEndpointElement.value, 'updated')
+  moveToEnd(topBox.value, topEnd.value, 'top')
+  moveToEnd(bottomBox.value, bottomEnd.value, 'bottom')
 }
 
 onUnmounted(() => {
-  cancelAnimationFrame(mountedAnimationFrameId)
-  cancelAnimationFrame(updatedAnimationFrameId)
+  cancelAnimationFrame(topFrameId)
+  cancelAnimationFrame(bottomFrameId)
 })
 </script>
 
 <template>
   <div
     class="day-01-update-track"
-    :data-endpoint-changed="endpointChanged"
+    :data-endpoint-changed="hasMoved"
     aria-label="onMounted 與 onUpdated 的動畫終點比較"
   >
     <p class="day-01-update-label day-01-update-mounted-label">onMounted()</p>
-    <div ref="mountedEndpointElement" class="day-01-endpoint day-01-mounted-endpoint">
+    <div ref="topEnd" class="day-01-endpoint day-01-mounted-endpoint">
       <span>終點</span>
     </div>
-    <div ref="mountedBoxElement" class="day-01-update-box day-01-mounted-box"></div>
-    <p v-if="endpointChanged" class="day-01-update-message" aria-live="polite">
+    <div ref="topBox" class="day-01-update-box day-01-mounted-box"></div>
+    <p v-if="hasMoved" class="day-01-update-message" aria-live="polite">
       <span>動畫只在元件掛載時建立一次</span>
       <span>之後資料更新不會重新執行動畫</span>
     </p>
 
     <p class="day-01-update-label day-01-update-updated-label">onUpdated()</p>
-    <div ref="updatedEndpointElement" class="day-01-endpoint day-01-updated-endpoint">
+    <div ref="bottomEnd" class="day-01-endpoint day-01-updated-endpoint">
       <span>終點</span>
     </div>
-    <div ref="updatedBoxElement" class="day-01-update-box day-01-updated-box"></div>
+    <div ref="bottomBox" class="day-01-update-box day-01-updated-box"></div>
   </div>
 
   <div class="controls">
     <button
       class="primary-action"
       type="button"
-      :disabled="endpointChanged"
-      @click="changeEndpoint"
+      :disabled="hasMoved"
+      @click="changeEnd"
     >
       改變終點位置
     </button>
