@@ -63,7 +63,10 @@ a:focus-visible {
   justify-content: space-between;
   padding-bottom: 15px;
   border-bottom: 1px solid var(--ink);
-  font: 650 0.72rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    650 0.72rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -76,7 +79,10 @@ a:focus-visible {
 .section-heading p {
   margin: 0 0 18px;
   color: var(--signal);
-  font: 700 0.72rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.72rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -123,7 +129,10 @@ code {
   right: 12px;
   bottom: 10px;
   color: var(--muted);
-  font: 600 0.68rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    600 0.68rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
   content: "VIEWPORT / X";
 }
@@ -134,7 +143,10 @@ code {
   z-index: 1;
   margin: 0;
   color: var(--muted);
-  font: 700 0.7rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 
@@ -191,7 +203,10 @@ code {
   z-index: 2;
   margin: 0;
   color: var(--muted);
-  font: 700 0.7rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 
@@ -238,7 +253,10 @@ code {
   top: 50%;
   left: 8px;
   color: var(--signal);
-  font: 700 0.66rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.66rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
   transform: translateY(-50%);
 }
@@ -288,7 +306,10 @@ code {
 
 .section-heading h2 {
   margin: 0;
-  font: 700 20px/1.25 Georgia, "Times New Roman", serif;
+  font:
+    700 20px/1.25 Georgia,
+    "Times New Roman",
+    serif;
   letter-spacing: -0.045em;
 }
 
@@ -303,7 +324,10 @@ code {
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font: 650 0.68rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    650 0.68rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -342,7 +366,10 @@ code {
   z-index: 1;
   margin: 0;
   color: var(--muted);
-  font: 700 0.7rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 
@@ -360,7 +387,10 @@ code {
   margin: 0;
   transform: translate(-50%, -50%);
   color: var(--muted);
-  font: 650 0.7rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    650 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 
@@ -377,7 +407,10 @@ code {
   right: 12px;
   bottom: 10px;
   color: var(--muted);
-  font: 600 0.68rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    600 0.68rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
   content: "VIEWPORT / X";
 }
@@ -399,12 +432,17 @@ code {
 
 .empty-stage span {
   color: var(--signal);
-  font: 400 2rem/1 Georgia, serif;
+  font:
+    400 2rem/1 Georgia,
+    serif;
 }
 
 .empty-stage p {
   margin: 10px 0 0;
-  font: 650 0.7rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    650 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.08em;
 }
 
@@ -479,7 +517,6 @@ code {
   .experiment-grid {
     grid-template-columns: 1fr;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -492,218 +529,6 @@ code {
   .day-01-timing-box {
     left: 50%;
     transform: translateX(-50%) !important;
-  }
-}
-
-/* src/days/day-02 */
-.day-02-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
-  gap: 16px;
-}
-
-.day-02-stage {
-  position: relative;
-  min-width: 0;
-  min-height: 366px;
-  overflow: hidden;
-  border: 1px solid var(--ink);
-  background:
-    linear-gradient(rgba(23, 33, 43, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 33, 43, 0.08) 1px, transparent 1px),
-    var(--surface);
-  background-size: 24px 24px;
-}
-
-.day-02-stage::before {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  left: 16px;
-  height: 1px;
-  background: var(--ink);
-  content: '';
-}
-
-.day-02-axis-label {
-  position: absolute;
-  bottom: 12px;
-  left: 16px;
-  margin: 0;
-  color: var(--muted);
-  font: 700 0.68rem/1 "Cascadia Code", Consolas, monospace;
-}
-
-.day-02-axis-end {
-  right: 16px;
-  left: auto;
-}
-
-.day-02-motion-box {
-  position: absolute;
-  top: calc(50% - 46px);
-  left: 16px;
-  display: grid;
-  width: 92px;
-  height: 92px;
-  place-content: center;
-  border: 1px solid var(--ink);
-  color: #fff;
-  background: var(--signal);
-  box-shadow: 8px 8px 0 var(--ink);
-  font: 750 0.72rem/1 "Cascadia Code", Consolas, monospace;
-  will-change: transform;
-}
-
-.day-02-motion-box span {
-  font-size: 1.5rem;
-  line-height: 1;
-}
-
-.day-02-panel {
-  border: 1px solid var(--ink);
-  color: #d9e2e8;
-  background: var(--ink);
-}
-
-.day-02-panel header {
-  display: flex;
-  justify-content: space-between;
-  padding: 13px 16px;
-  border-bottom: 1px solid var(--muted);
-  color: #91a2b0;
-  font: 600 0.68rem/1 "Cascadia Code", Consolas, monospace;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.day-02-field-list {
-  display: grid;
-  gap: 14px;
-  padding: 20px 16px;
-}
-
-.day-02-field {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  color: #91a2b0;
-  font: 650 0.72rem/1 "Cascadia Code", Consolas, monospace;
-}
-
-.day-02-input-wrap {
-  position: relative;
-}
-
-.day-02-field input,
-.day-02-field select {
-  width: 100%;
-  min-height: 42px;
-  padding: 0 42px 0 11px;
-  border: 1px solid #657582;
-  border-radius: 0;
-  outline: 0;
-  color: #fff;
-  background: #253440;
-  font: 650 0.78rem/1 "Cascadia Code", Consolas, monospace;
-}
-
-.day-02-field input:focus-visible,
-.day-02-field select:focus-visible {
-  border-color: #e66b5e;
-  box-shadow: 0 0 0 2px #e66b5e;
-}
-
-.day-02-input-wrap small {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  color: #91a2b0;
-  transform: translateY(-50%);
-}
-
-.day-02-ease-field {
-  grid-template-columns: 1fr;
-  gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid var(--muted);
-}
-
-.day-02-ease-field select {
-  padding-right: 11px;
-}
-
-.day-02-bezier-fields {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.day-02-bezier-fields label {
-  display: grid;
-  gap: 6px;
-}
-
-.day-02-bezier-fields label > span {
-  color: #91a2b0;
-  text-transform: uppercase;
-}
-
-.day-02-bezier-fields input {
-  min-width: 0;
-  padding: 0 6px;
-  text-align: center;
-}
-
-.day-02-code {
-  margin: 16px 0 0;
-  padding: 20px 22px;
-  overflow-x: auto;
-  border: 1px solid var(--ink);
-  color: #d9e2e8;
-  background: var(--ink);
-  font: 600 0.78rem/1.75 "Cascadia Code", Consolas, monospace;
-}
-
-.day-02-code code {
-  padding: 0;
-  color: inherit;
-  background: transparent;
-  font: inherit;
-}
-
-.day-02-code span {
-  color: #91a2b0;
-}
-
-.day-02-code strong {
-  color: #e66b5e;
-  font-weight: 700;
-}
-
-.day-02-replay-action {
-  color: #fff;
-  background: #c63d2f;
-}
-
-.day-02-replay-action:hover {
-  background: #a92f24;
-}
-
-@media (max-width: 760px) {
-  .day-02-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .day-02-stage {
-    min-height: 300px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .day-02-motion-box {
-    transform: none !important;
   }
 }
 
@@ -749,7 +574,10 @@ code {
   padding: 13px 16px;
   border-bottom: 1px solid #52616f;
   color: #91a2b0;
-  font: 600 0.68rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    600 0.68rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -775,7 +603,10 @@ code {
 }
 
 .callback-content strong {
-  font: 700 0.82rem/1.4 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.82rem/1.4 "Cascadia Code",
+    Consolas,
+    monospace;
 }
 
 .callback-content p {

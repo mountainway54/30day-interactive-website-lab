@@ -25,6 +25,15 @@ const router = createRouter({
         title: '用 Input 控制動畫參數',
       },
     },
+    {
+      path: '/day-03',
+      name: 'day-03',
+      component: () => import('@/days/day-03/Day03View.vue'),
+      meta: {
+        day: 3,
+        title: 'GSAP Timeline Position Parameter',
+      },
+    },
   ],
 })
 

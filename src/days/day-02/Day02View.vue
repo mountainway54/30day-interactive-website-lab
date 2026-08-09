@@ -1,6 +1,8 @@
 <script setup>
 import { computed, reactive, ref } from "vue";
 
+import "./day-02.css";
+
 import MotionBox from "./MotionBox.vue";
 import MotionControlPanel from "./MotionControlPanel.vue";
 

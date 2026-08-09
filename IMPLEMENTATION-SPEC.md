@@ -12,15 +12,17 @@
 
 - 每天放在獨立的 `src/days/day-NN/` 資料夾。
 - 路由頁面命名為 `DayNNView.vue`，並註冊 lazy-loaded route。
-- Day 專屬 CSS 使用 `.day-NN-` 前綴，樣式集中於 `src/assets/main.css`。
+- 全站與共用 CSS 放在 `src/assets/main.css`；Day 專屬 CSS 放在 `src/days/day-NN/day-NN.css`，由 `DayNNView.vue` 引入。
+- Day 專屬 CSS 使用 `.day-NN-` 前綴。
 - 元件卸載時清理動畫、計時器與事件監聽。若故意不清理，必須在畫面與程式註解中標示為錯誤示範。
-- 動畫支援 `prefers-reduced-motion`，重要互動結果直接顯示在畫面上，不只寫進 Console。
+- 重要互動結果直接顯示在畫面上，不只寫進 Console。
 
 ## 3. 建議的專案結構
 
 ```text
 src/days/day-NN/
 ├─ DayNNView.vue
+├─ day-NN.css
 └─ 當日需要的子元件
 ```
 

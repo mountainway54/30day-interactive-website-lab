@@ -1,0 +1,326 @@
+/* src/days/day-03 */
+.day-03-motion-warning {
+  margin: -8px 0 18px;
+  padding: 11px 14px;
+  border-left: 4px solid var(--signal);
+  color: var(--ink);
+  background: rgba(198, 61, 47, 0.1);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.day-03-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr);
+  gap: 16px;
+}
+
+.day-03-visual-column,
+.day-03-side-column {
+  display: grid;
+  min-width: 0;
+  gap: 16px;
+}
+
+.day-03-stage {
+  position: relative;
+  min-height: 258px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  perspective: 900px;
+  background:
+    linear-gradient(rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    var(--surface);
+  background-size: 24px 24px;
+}
+
+.day-03-stage::before {
+  position: absolute;
+  top: 50%;
+  right: 32px;
+  left: 32px;
+  height: 1px;
+  background: rgba(23, 33, 43, 0.4);
+  content: "";
+}
+
+.day-03-box {
+  --day-03-front: #52616f;
+  --day-03-back: #fff;
+  position: absolute;
+  top: calc(50% - 46px);
+  left: 32px;
+  width: 92px;
+  height: 92px;
+  border: 1px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.day-03-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  backface-visibility: hidden;
+}
+
+.day-03-face-front {
+  background: var(--day-03-front);
+}
+
+.day-03-face-back {
+  background: var(--day-03-back);
+  transform: rotateY(180deg);
+}
+
+.day-03-timeline {
+  position: relative;
+  min-height: 122px;
+  padding: 10px 16px 12px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  background: transparent;
+  transition: opacity 160ms ease;
+}
+
+.day-03-timeline[data-invalid="true"] .day-03-ruler,
+.day-03-timeline[data-invalid="true"] .day-03-track-area {
+  opacity: 0.28;
+}
+
+.day-03-ruler {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 72px;
+  color: var(--muted);
+  font:
+    650 0.64rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
+}
+
+.day-03-track-area {
+  position: relative;
+  display: grid;
+  margin-top: 8px;
+}
+
+.day-03-track-row {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 13px;
+  border-top: 1px solid var(--ink);
+}
+
+.day-03-track-row > span {
+  color: var(--muted);
+  font:
+    700 0.63rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
+  letter-spacing: 0.04em;
+}
+
+.day-03-track-line {
+  position: relative;
+  height: 13px;
+  background: transparent;
+}
+
+.day-03-track-line i {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  min-width: 3px;
+  background: var(--signal);
+}
+
+.day-03-playhead {
+  position: absolute;
+  top: -5px;
+  right: 0;
+  bottom: -5px;
+  left: 72px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.day-03-playhead::before,
+.day-03-playhead::after {
+  position: absolute;
+  left: var(--day-03-progress);
+  background: var(--ink);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.day-03-playhead::before {
+  top: -2px;
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.day-03-playhead::after {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+}
+
+.day-03-chart-message {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 4;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--signal);
+  color: var(--signal);
+  background: var(--paper);
+  font:
+    700 0.7rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
+  transform: translate(-50%, -50%);
+}
+
+.day-03-code-panel {
+  min-width: 0;
+  border: 1px solid var(--ink);
+  color: #d9e2e8;
+  background: var(--ink);
+}
+
+.day-03-code-panel > header {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--muted);
+  color: #91a2b0;
+  font:
+    600 0.68rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
+  letter-spacing: 0.1em;
+}
+
+.day-03-code-scroll {
+  padding: 18px 16px 20px;
+  overflow-x: hidden;
+}
+
+.day-03-code-scroll code {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font:
+    600 0.7rem/1.6 "Cascadia Code",
+    Consolas,
+    monospace;
+}
+
+.day-03-code-scroll code > span {
+  color: #91a2b0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.day-03-code-scroll code > .day-03-code-comment {
+  color: #e66b5e;
+}
+
+.day-03-code-scroll label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 20px;
+  white-space: normal;
+}
+
+.day-03-code-scroll label > span {
+  color: #91a2b0;
+}
+
+.day-03-code-scroll input {
+  width: 68px;
+  min-height: 20px;
+  margin: 0 4px;
+  padding: 0 4px;
+  border: 1px solid #e66b5e;
+  border-radius: 0;
+  outline: 0;
+  color: #fff;
+  background: #253440;
+  font:
+    750 0.75rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
+  text-align: center;
+}
+
+.day-03-code-scroll input:focus-visible {
+  box-shadow: 0 0 0 2px #e66b5e;
+}
+
+.day-03-code-scroll input[aria-invalid="true"] {
+  border-color: #ff8a7e;
+  box-shadow: 0 0 0 2px rgba(255, 138, 126, 0.32);
+}
+
+.day-03-code-scroll small {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  z-index: 2;
+  width: max-content;
+  max-width: 280px;
+  padding: 6px 8px;
+  border: 1px solid #ff8a7e;
+  color: #fff;
+  background: #7d2d2a;
+  font:
+    600 0.64rem/1.4 "Cascadia Code",
+    Consolas,
+    monospace;
+  white-space: normal;
+}
+
+.day-03-controls {
+  margin-top: 18px;
+}
+
+.day-03-controls .day-03-icon-action {
+  display: grid;
+  width: 52px;
+  padding: 0;
+  place-items: center;
+}
+
+.day-03-icon-action svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+@media (max-width: 760px) {
+  .day-03-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day-03-stage {
+    min-height: 230px;
+  }
+
+  .day-03-box {
+    left: 24px;
+  }
+
+  .day-03-controls .day-03-icon-action {
+    width: 100%;
+  }
+}

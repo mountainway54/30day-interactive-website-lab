@@ -4,8 +4,9 @@
 
 ## CSS 管理
 
-- 全站樣式統一放在 `src/assets/main.css`。
+- 全站與共用樣式放在 `src/assets/main.css`。
 - `src/main.js` 已載入 `main.css`，元件內不需要重複 `import`。
+- Day 專屬樣式放在 `src/days/day-NN/day-NN.css`，並由對應的 `DayNNView.vue` 引入。
 - Vue 元件原則上不放 `<style>`。
 - 新頁面的專屬 class 建議加上日期前綴，例如 `.day-02-stage`，避免全域樣式互相覆蓋。
 - 共用 class 可沿用 `.day-page`、`.lab-nav`、`.experiment`、`.section-heading`、`.controls`。
@@ -106,7 +107,6 @@
 
 ## 動態效果與無障礙
 
-- 動畫元件必須處理 `prefers-reduced-motion: reduce`。
 - 互動按鈕使用原生 `<button>`，並提供清楚的文字。
 - 動態狀態面板使用 `aria-live="polite"`。
 - 純裝飾元素使用 `aria-hidden="true"`。
@@ -118,7 +118,7 @@
 1. 在 `src/days/` 建立資料夾，例如 `day-02/`。
 2. 建立 `Day02View.vue`，使用上述頁面結構。
 3. 將當天專屬元件放在同一個 Day 資料夾。
-4. 將新樣式加到 `src/assets/main.css`，並以 `.day-02-` 前綴命名。
+4. 將新樣式放在當日資料夾的 `day-NN.css`，由 `DayNNView.vue` 引入，並以 `.day-NN-` 前綴命名。
 5. 在 `src/router/index.js` 新增 lazy-loaded route：
 
 ```js
@@ -140,11 +140,11 @@
 
 - [ ] 頁面使用 `.day-page` 與 `.lab-nav`。
 - [ ] Day 編號與 Router path 正確。
-- [ ] 樣式集中於 `src/assets/main.css`。
+- [ ] 全站樣式放在 `src/assets/main.css`，Day 專屬樣式放在對應的 `day-NN.css`。
 - [ ] 頁面專屬 class 使用 Day 前綴。
 - [ ] 桌面與手機版面皆可操作。
 - [ ] 按鈕不因狀態切換而改變排列。
 - [ ] 動態資訊可從畫面直接理解。
 - [ ] 動畫、計時器與事件監聽有正確清理。
-- [ ] 支援 reduced motion 與鍵盤焦點。
+- [ ] 支援鍵盤焦點。
 - [ ] `npm run build` 通過。
