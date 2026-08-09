@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 
 import "./day-03.css";
+import LabelTimelineDemo from "./LabelTimelineDemo.vue";
+import StaggerTimelineDemo from "./StaggerTimelineDemo.vue";
 
 const DURATION = 2;
 const BASE_TWEEN = Object.freeze({ duration: DURATION, ease: "power2.inOut" });
@@ -383,5 +385,8 @@ onUnmounted(() => {
         </button>
       </div>
     </section>
+
+    <LabelTimelineDemo />
+    <StaggerTimelineDemo />
   </main>
 </template>
