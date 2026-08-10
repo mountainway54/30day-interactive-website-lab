@@ -4,7 +4,6 @@ import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 
 import "./day-03.css";
 import LabelTimelineDemo from "./LabelTimelineDemo.vue";
-import StaggerTimelineDemo from "./StaggerTimelineDemo.vue";
 
 const DURATION = 2;
 const BASE_TWEEN = Object.freeze({ duration: DURATION, ease: "power2.inOut" });
@@ -39,7 +38,7 @@ const SCALE = Object.freeze({
 });
 
 const ANIMATIONS = Object.freeze([MOVE, ROTATE, FLIP, COLOR, SCALE]);
-const defaults = Object.freeze(["<", "<1", ">", ">-0.5"]);
+const defaults = Object.freeze(["1.5", "<-1", ">0.5", "+=0.2"]);
 const labels = ANIMATIONS.map((animation) => animation.label);
 
 const box = ref(null);
@@ -67,9 +66,23 @@ const playheadStyle = computed(() => ({
 
 function validatePosition(value) {
   const trimmed = value.trim();
+  const absoluteSeconds = trimmed.match(/^\d+(?:\.\d{1,2})?$/);
+
+  if (absoluteSeconds) {
+    const seconds = Number(trimmed);
+    return seconds <= 10 ? "" : "絕對時間必須介於 0 至 10 秒";
+  }
+
+  const timelineEndOffset = trimmed.match(/^([+-])=(\d+(?:\.\d{1,2})?)$/);
+
+  if (timelineEndOffset) {
+    const offset = Number(timelineEndOffset[2]);
+    return offset <= 2 ? "" : "偏移必須介於 -2 至 2 秒";
+  }
+
   const match = trimmed.match(/^([<>])(?:(?:([+-])=)?(-?\d+(?:\.\d{1,2})?))?$/);
 
-  if (!match) return "請輸入 <、>，或加上 -2 至 2 秒的偏移";
+  if (!match) return "請輸入 0–10 秒，或使用 +=、-=、<、> 相對位置";
 
   const sign = match[2];
   const rawNumber = match[3];
@@ -345,10 +358,16 @@ onUnmounted(() => {
                   }}</small>
                 </label>
                 <span class="day-03-code-comment"
+                  >// 純數字：timeline 起點後的絕對秒數，例如 1.5</span
+                >
+                <span class="day-03-code-comment"
                   >// "&lt;"：對齊前一段動畫的開始時間</span
                 >
                 <span class="day-03-code-comment"
                   >// "&gt;"：對齊前一段動畫的結束時間</span
+                >
+                <span class="day-03-code-comment"
+                  >// "+="／"-="：從 timeline 結尾向後／向前偏移</span
                 >
               </code>
             </div>
@@ -387,6 +406,5 @@ onUnmounted(() => {
     </section>
 
     <LabelTimelineDemo />
-    <StaggerTimelineDemo />
   </main>
 </template>

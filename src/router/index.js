@@ -34,6 +34,24 @@ const router = createRouter({
         title: 'GSAP Timeline Position Parameter',
       },
     },
+    {
+      path: '/day-04',
+      name: 'day-04',
+      component: () => import('@/days/day-04/Day04View.vue'),
+      meta: {
+        day: 4,
+        title: 'GSAP Stagger 與 Reverse',
+      },
+    },
+    {
+      path: '/day-05',
+      name: 'day-05',
+      component: () => import('@/days/day-05/Day05View.vue'),
+      meta: {
+        day: 5,
+        title: 'ScrollTrigger 視差滾動敘事',
+      },
+    },
   ],
 })
 

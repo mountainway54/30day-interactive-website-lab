@@ -1,0 +1,208 @@
+/* src/days/day-04 */
+.day-04-concept-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr);
+  gap: 16px;
+}
+
+.day-04-followup {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+.day-04-stagger-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 258px;
+  gap: clamp(10px, 2.5vw, 24px);
+  padding: 72px 24px 24px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  background:
+    linear-gradient(rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    var(--surface);
+  background-size: 24px 24px;
+}
+
+.day-04-stagger-box {
+  display: block;
+  width: clamp(38px, 7vw, 62px);
+  aspect-ratio: 1;
+  border: 1px solid var(--ink);
+  background: var(--muted);
+  box-shadow: 5px 5px 0 var(--ink);
+  will-change: transform;
+}
+
+.day-04-grid-stagger-stage {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(21px, 32px));
+  place-content: center;
+  min-width: 0;
+  min-height: 330px;
+  gap: clamp(20px, 3vw, 34px);
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  background:
+    linear-gradient(rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    var(--surface);
+  background-size: 24px 24px;
+}
+
+.day-04-grid-stagger-dot {
+  display: block;
+  aspect-ratio: 1;
+  border: 1px solid var(--ink);
+  background: var(--muted);
+  box-shadow: 3px 3px 0 var(--ink);
+  will-change: transform;
+}
+
+.day-04-code-panel {
+  min-width: 0;
+  border: 1px solid var(--ink);
+  color: #d9e2e8;
+  background: var(--ink);
+}
+
+.day-04-code-panel > header {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--muted);
+  color: #91a2b0;
+  font: 600 0.68rem/1 "Cascadia Code", Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.day-04-concept-code {
+  padding: 20px 16px;
+}
+
+.day-04-concept-code code {
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  color: #91a2b0;
+  background: transparent;
+  font: 600 0.7rem/1.6 "Cascadia Code", Consolas, monospace;
+}
+
+.day-04-concept-code code > span {
+  overflow-wrap: anywhere;
+}
+
+.day-04-code-comment {
+  color: #e66b5e;
+}
+
+.day-04-stagger-code label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-04-stagger-code select {
+  min-width: 84px;
+  min-height: 20px;
+  padding: 0 28px 0 8px;
+  border: 1px solid #e66b5e;
+  border-radius: 0;
+  outline: 0;
+  color: #fff;
+  background: #253440;
+  font: 700 0.72rem/1 "Cascadia Code", Consolas, monospace;
+}
+
+.day-04-stagger-code input {
+  width: 68px;
+  min-height: 20px;
+  margin: 0 4px;
+  padding: 0 4px;
+  border: 1px solid #e66b5e;
+  border-radius: 0;
+  outline: 0;
+  color: #fff;
+  background: #253440;
+  font: 750 0.75rem/1 "Cascadia Code", Consolas, monospace;
+  text-align: center;
+}
+
+.day-04-stagger-code input:focus-visible,
+.day-04-stagger-code select:focus-visible {
+  box-shadow: 0 0 0 2px #e66b5e;
+}
+
+.day-04-stagger-code input[aria-invalid="true"] {
+  border-color: #ff8a7e;
+  box-shadow: 0 0 0 2px rgba(255, 138, 126, 0.32);
+}
+
+.day-04-stagger-code small {
+  color: #ff8a7e;
+  font: 600 0.66rem/1.4 "Cascadia Code", Consolas, monospace;
+}
+
+.day-04-grid-stagger-code label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-04-grid-stagger-code select {
+  min-width: 124px;
+  min-height: 20px;
+  padding: 0 28px 0 8px;
+  border: 1px solid #e66b5e;
+  border-radius: 0;
+  outline: 0;
+  color: #fff;
+  background: #253440;
+  font: 700 0.72rem/1 "Cascadia Code", Consolas, monospace;
+}
+
+.day-04-grid-stagger-code select:focus-visible {
+  box-shadow: 0 0 0 2px #e66b5e;
+}
+
+.day-04-controls {
+  margin-top: 18px;
+}
+
+.day-04-controls .day-04-icon-action {
+  display: grid;
+  width: 52px;
+  padding: 0;
+  place-items: center;
+}
+
+.day-04-icon-action svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+@media (max-width: 760px) {
+  .day-04-concept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day-04-stagger-stage {
+    min-height: 230px;
+    gap: 10px;
+    padding-inline: 16px;
+  }
+
+  .day-04-grid-stagger-stage {
+    grid-template-columns: repeat(5, minmax(18px, 28px));
+    min-height: 290px;
+    gap: 20px;
+    padding: 20px 12px;
+  }
+
+  .day-04-controls .day-04-icon-action {
+    width: 100%;
+  }
+}

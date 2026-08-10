@@ -73,9 +73,9 @@ function resetDemo() {
     >
       <header class="section-heading">
         <div>
-          <p>Demo 1：</p>
+          <p>Demo 1</p>
           <h2 id="dom-section-title">
-            是<span class="heading-english">Callback</span>來得太早
+            是<span class="heading-english"> Callback </span>來得太早
           </h2>
         </div>
       </header>
