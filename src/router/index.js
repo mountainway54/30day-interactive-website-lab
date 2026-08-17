@@ -52,6 +52,15 @@ const router = createRouter({
         title: 'ScrollTrigger 視差滾動敘事',
       },
     },
+    {
+      path: '/day-06',
+      name: 'day-06',
+      component: () => import('@/days/day-06/Day06View.vue'),
+      meta: {
+        day: 6,
+        title: 'GSAP 動畫管理與高頻互動',
+      },
+    },
   ],
 })
 

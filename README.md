@@ -7,9 +7,12 @@
 - Day 1｜動畫不會 DOM？從掛載看懂 Vue 生命週期
 - Day 2｜GSAP 入門（1）：認識基礎參數
 - Day 3｜用Timeline管理動畫流程
-- Day 04–30：施工中...
+- Day 4｜利用 Stagger 排列規律動畫
+- Day 5｜ScrollTrigger 視差滾動敘事
+- Day 6｜GSAP 動畫管理與高頻互動
+- Day 07–30：施工中...
 
-啟動後可從 `#/day-01` 或 `#/day-02` 進入各日 Demo。
+啟動後可從 `#/day-01` 至 `#/day-06` 進入各日 Demo。
 
 ## 本地端運行
 
