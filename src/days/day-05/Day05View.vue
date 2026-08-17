@@ -1,7 +1,7 @@
 <script setup>
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 
 import "./day-05.css";
 
@@ -11,46 +11,46 @@ const scenes = Object.freeze([
   {
     key: "trigger",
     label: "TRIGGER",
-    title: "指定故事從哪個元素開始",
+    title: "指定要操作的元素",
     description:
-      "trigger 是 ScrollTrigger 觀察的目標。當故事容器進入指定位置，這段時間軸才開始接收捲動進度。",
-    value: '.day-05-story',
+      "trigger 是 ScrollTrigger 用來判斷觸發時機的目標元素。當它捲動到指定位置後，動畫便開始跟隨捲動進度。",
+    value: ".day-05-story",
     code: 'ScrollTrigger.create({\n  trigger: ".story"\n})',
   },
   {
     key: "start",
     label: "START",
-    title: "定義觸發點與視窗的交會時刻",
+    title: "定義觸發點",
     description:
-      'start: "top top" 表示 trigger 頂端碰到視窗頂端時啟動。方塊越過基準線，讓交會位置變得可見。',
+      'start 用來設定 ScrollTrigger 的起點。start: "top top" 表示當 trigger 的頂端碰到視窗頂端時，ScrollTrigger 開始生效。第一個 top 是 trigger 元素的頂端，第二個 top 是瀏覽器視窗的頂端。',
     value: '"top top"',
     code: 'ScrollTrigger.create({\n  start: "top top"\n})',
   },
   {
     key: "end",
     label: "END",
-    title: "用捲動距離決定動畫的範圍",
+    title: "決定捲動垂直範圍",
     description:
-      'end: "+=500%" 將五個視窗高度映射成完整時間軸。延伸的線段就是這段可用範圍。',
+      'end: "+=500%" 表示從 start 的位置開始，再往下捲動相當於 5 個視窗高度的距離後結束。',
     value: '"+=500%"',
     code: 'ScrollTrigger.create({\n  end: "+=500%"\n})',
   },
   {
     key: "scrub",
     label: "SCRUB",
-    title: "讓播放頭跟著閱讀進度移動",
+    title: "動畫綁定滾動進度",
     description:
-      "scrub: 0.8 讓動畫追隨捲動並帶有短暫緩衝。向上捲動時，碰撞、旋轉與換色也會逐格倒轉。",
+      "scrub: 0.8 讓動畫追隨捲動並帶有短暫緩衝，代表動畫會花 0.8 秒追上目前的 Scroll 位置，所以有比較柔順、帶慣性的感覺。",
     value: "0.8",
-    code: 'gsap.to(".shape", {\n  x: 300,\n  scrollTrigger: { scrub: true }\n})',
+    code: 'gsap.to(".shape", {\n  x: 300,\n  scrollTrigger: { scrub: 0.8 }\n})',
   },
   {
     key: "pin",
     label: "PIN",
-    title: "固定舞台，直到敘事完成",
+    title: "固定視窗直到結束",
     description:
       "pin 讓同一個舞台留在視窗內，內容持續改變而不必切換展示框；抵達終點後才回到一般頁面流。",
-    value: '.day-05-stage',
+    value: ".day-05-stage",
     code: 'ScrollTrigger.create({\n  trigger: ".story",\n  pin: true\n})',
   },
 ]);
@@ -64,6 +64,9 @@ const axis = ref(null);
 const activeSceneIndex = ref(0);
 const progress = ref(0);
 const hasReducedMotion = ref(false);
+const showMarkers = ref(false);
+const scrubValue = ref(0.8);
+const scrubInput = ref("0.8");
 
 let animationContext = null;
 let reducedMotionQuery = null;
@@ -79,6 +82,42 @@ const progressLabel = computed(() =>
 
 function setReducedMotion(event) {
   hasReducedMotion.value = event.matches;
+}
+
+function applyScrubValue() {
+  const parsedValue = Number.parseFloat(scrubInput.value);
+  const nextValue = Number.isFinite(parsedValue)
+    ? Math.min(5, Math.max(0.1, parsedValue))
+    : scrubValue.value;
+
+  scrubValue.value = Math.round(nextValue * 10) / 10;
+  scrubInput.value = scrubValue.value.toFixed(1);
+}
+
+function syncChapterScrollerMarkerVisibility() {
+  document
+    .querySelectorAll(".gsap-marker-scroller-start, .gsap-marker-scroller-end")
+    .forEach((marker) => {
+      marker.style.visibility = marker.classList.contains("marker-STORY")
+        ? "visible"
+        : "hidden";
+    });
+}
+
+function placeChapterMarkerLabel(marker, placement) {
+  if (!marker) return;
+
+  const markerWidth = marker.offsetWidth;
+  const markerHeight = marker.offsetHeight;
+  const label = document.createElement("span");
+
+  label.className = `day-05-chapter-marker-label is-${placement}`;
+  label.textContent = marker.textContent;
+  marker.textContent = "";
+  marker.style.width = `${markerWidth}px`;
+  marker.style.height = `${markerHeight}px`;
+  marker.classList.add("day-05-chapter-marker");
+  marker.append(label);
 }
 
 function buildScrollStory() {
@@ -98,8 +137,11 @@ function buildScrollStory() {
         trigger: story.value,
         start: "top top",
         end: "+=500%",
-        scrub: 0.8,
+        scrub: scrubValue.value,
         pin: stage.value,
+        markers: showMarkers.value,
+        id: "STORY",
+        refreshPriority: -1,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate(self) {
@@ -199,11 +241,7 @@ function buildScrollStory() {
         },
         3,
       )
-      .to(
-        orbit.value,
-        { rotation: 270, scale: 1.08, ease: "power2.inOut" },
-        3,
-      )
+      .to(orbit.value, { rotation: 270, scale: 1.08, ease: "power2.inOut" }, 3)
       .to(circle.value, { xPercent: 14, yPercent: -116, rotation: 340 }, 3)
       .to(square.value, { xPercent: -28, yPercent: 102, rotation: 225 }, 3)
       .to(
@@ -248,8 +286,50 @@ function buildScrollStory() {
         },
         4,
       );
+
+    if (showMarkers.value) {
+      const storyTrigger = timeline.scrollTrigger;
+
+      scenes.forEach((scene, index) => {
+        const chapterTrigger = ScrollTrigger.create({
+          trigger: story.value,
+          id: `${String(index + 1).padStart(2, "0")} ${scene.label}`,
+          start: () =>
+            storyTrigger.start +
+            ((storyTrigger.end - storyTrigger.start) * index) / sceneCount,
+          end: () =>
+            storyTrigger.start +
+            ((storyTrigger.end - storyTrigger.start) * (index + 1)) /
+              sceneCount,
+          markers: {
+            startColor: "#c63d2f",
+            endColor: "#405b50",
+            fontSize: "10px",
+            fontWeight: "700",
+            indent: 28 + index * 32,
+          },
+          invalidateOnRefresh: true,
+          refreshPriority: index,
+        });
+
+        placeChapterMarkerLabel(chapterTrigger.markerStart, "below");
+        placeChapterMarkerLabel(chapterTrigger.markerEnd, "above");
+      });
+    }
   }, story.value);
 }
+
+async function rebuildScrollStory() {
+  animationContext?.revert();
+  animationContext = null;
+  await nextTick();
+  buildScrollStory();
+  ScrollTrigger.refresh();
+  if (showMarkers.value) syncChapterScrollerMarkerVisibility();
+}
+
+watch(showMarkers, rebuildScrollStory);
+watch(scrubValue, rebuildScrollStory);
 
 onMounted(() => {
   reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -272,7 +352,11 @@ onUnmounted(() => {
       <span>05 / 30</span>
     </nav>
 
-    <section ref="story" class="day-05-story" aria-label="五幕 ScrollTrigger 教學">
+    <section
+      ref="story"
+      class="day-05-story"
+      aria-label="五幕 ScrollTrigger 教學"
+    >
       <div ref="stage" class="day-05-stage">
         <div class="day-05-stage-grid" aria-hidden="true"></div>
 
@@ -300,7 +384,26 @@ onUnmounted(() => {
         <aside class="day-05-hud" aria-label="ScrollTrigger 即時狀態">
           <header>
             <span>CODE EXAMPLE</span>
-            <strong aria-live="polite">{{ sceneNumber }} / 05</strong>
+            <div class="day-05-hud-tools">
+              <label class="day-05-scrub-control">
+                <span>SCRUB</span>
+                <input
+                  v-model="scrubInput"
+                  type="number"
+                  min="0.1"
+                  max="5"
+                  step="0.1"
+                  inputmode="decimal"
+                  aria-label="Scrub 緩衝秒數"
+                  @change="applyScrubValue"
+                />
+              </label>
+              <label class="day-05-marker-toggle">
+                <input v-model="showMarkers" type="checkbox" />
+                <span>MARKERS</span>
+              </label>
+              <strong aria-live="polite">{{ sceneNumber }} / 05</strong>
+            </div>
           </header>
           <pre><code>{{ activeScene.code }}</code></pre>
           <div class="day-05-code-meta">

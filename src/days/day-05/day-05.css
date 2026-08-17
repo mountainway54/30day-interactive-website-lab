@@ -14,7 +14,11 @@
   z-index: 20;
   padding: 18px clamp(20px, 4vw, 56px) 15px;
   color: var(--ink);
-  background: color-mix(in srgb, var(--day-05-stage-bg, #f5f1e8) 84%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--day-05-stage-bg, #f5f1e8) 84%,
+    transparent
+  );
   backdrop-filter: blur(10px);
 }
 
@@ -88,14 +92,20 @@
 .day-05-stage-copy > p:first-child {
   margin: 0 0 15px;
   color: var(--day-05-line);
-  font: 800 0.72rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    800 0.72rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
   letter-spacing: 0.12em;
 }
 
 .day-05-stage-copy h3 {
   max-width: 360px;
   margin: 0;
-  font: 700 clamp(1.55rem, 3.4vw, 3rem)/1.03 Georgia, "Times New Roman", serif;
+  font:
+    700 clamp(1.55rem, 3.4vw, 3rem)/1.03 Georgia,
+    "Times New Roman",
+    serif;
   letter-spacing: -0.045em;
 }
 
@@ -228,13 +238,83 @@
   color: #f5f1e8;
 }
 
+.day-05-hud-tools,
+.day-05-marker-toggle,
+.day-05-scrub-control {
+  display: flex;
+  align-items: center;
+}
+
+.day-05-hud-tools {
+  gap: 16px;
+}
+
+.day-05-marker-toggle {
+  gap: 7px;
+  cursor: pointer;
+}
+
+.day-05-scrub-control {
+  gap: 7px;
+}
+
+.day-05-scrub-control input {
+  width: 54px;
+  height: 28px;
+  border: 1px solid #91a2b0;
+  border-radius: 0;
+  padding: 2px 5px;
+  color: #f5f1e8;
+  background: transparent;
+  font: inherit;
+}
+
+.day-05-scrub-control input:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.day-05-marker-toggle input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: #c97958;
+  cursor: pointer;
+}
+
+.day-05-marker-toggle input:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.day-05-marker-toggle:has(input:checked) span {
+  color: #f5f1e8;
+}
+
+.day-05-chapter-marker-label {
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+}
+
+.day-05-chapter-marker-label.is-below {
+  top: 100%;
+}
+
+.day-05-chapter-marker-label.is-above {
+  bottom: 100%;
+}
+
 .day-05-hud pre {
   margin: 0;
   padding: 16px 18px 14px;
   overflow-x: auto;
   color: #91a2b0;
   background: transparent;
-  font: 650 0.72rem/1.7 "Cascadia Code", Consolas, monospace;
+  font:
+    650 0.72rem/1.7 "Cascadia Code",
+    Consolas,
+    monospace;
 }
 
 .day-05-hud code {
@@ -289,7 +369,10 @@
   place-items: center;
   border: 1px solid transparent;
   color: color-mix(in srgb, var(--ink) 62%, transparent);
-  font: 700 0.6rem/1 "Cascadia Code", Consolas, monospace;
+  font:
+    700 0.6rem/1 "Cascadia Code",
+    Consolas,
+    monospace;
 }
 
 .day-05-scene-rail span[data-active="true"] {
@@ -311,7 +394,7 @@
 
   .day-05-stage-copy {
     top: 82px;
-    right: 44px;
+    right: 20px;
     left: 20px;
     width: auto;
   }
