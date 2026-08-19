@@ -125,19 +125,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="experiment day-06-experiment" aria-labelledby="day-06-lifecycle-title">
+  <section
+    class="experiment day-06-experiment"
+    aria-labelledby="day-06-lifecycle-title"
+  >
     <header class="section-heading">
       <div>
         <p>EXPERIMENT A / ANIMATION OWNERSHIP</p>
-        <h2 id="day-06-lifecycle-title">
-          停在現場，還是回到原點？
-        </h2>
+        <h2 id="day-06-lifecycle-title">停在現場，還是回到原點？</h2>
       </div>
       <span class="day-06-index">KILL ↔ REVERT</span>
     </header>
 
     <p class="day-06-description">
-      兩側使用完全相同的 context。觀察 <code>context.kill()</code> 如何停在當下，以及
+      兩側使用完全相同的 context。觀察
+      <code>context.kill()</code> 如何停在當下，以及
       <code>context.revert()</code> 如何連同 GSAP 寫入的樣式一起還原。
     </p>
 
@@ -145,11 +147,19 @@ onUnmounted(() => {
       <article class="day-06-specimen-card">
         <header>
           <div><span>SCOPE / LEFT</span><strong>context.kill()</strong></div>
-          <span class="day-06-state" :data-state="leftStatus" aria-live="polite">
+          <span
+            class="day-06-state"
+            :data-state="leftStatus"
+            aria-live="polite"
+          >
             <i></i>{{ leftStatus }}
           </span>
         </header>
-        <div ref="leftStage" class="day-06-sample-stage" aria-label="context kill 動畫舞台">
+        <div
+          ref="leftStage"
+          class="day-06-sample-stage"
+          aria-label="context kill 動畫舞台"
+        >
           <i class="day-06-sample is-circle" aria-hidden="true"></i>
           <i class="day-06-sample is-square" aria-hidden="true"></i>
           <i class="day-06-sample is-diamond" aria-hidden="true"></i>
@@ -160,11 +170,19 @@ onUnmounted(() => {
       <article class="day-06-specimen-card">
         <header>
           <div><span>SCOPE / RIGHT</span><strong>context.revert()</strong></div>
-          <span class="day-06-state" :data-state="rightStatus" aria-live="polite">
+          <span
+            class="day-06-state"
+            :data-state="rightStatus"
+            aria-live="polite"
+          >
             <i></i>{{ rightStatus }}
           </span>
         </header>
-        <div ref="rightStage" class="day-06-sample-stage" aria-label="context revert 動畫舞台">
+        <div
+          ref="rightStage"
+          class="day-06-sample-stage"
+          aria-label="context revert 動畫舞台"
+        >
           <i class="day-06-sample is-circle" aria-hidden="true"></i>
           <i class="day-06-sample is-square" aria-hidden="true"></i>
           <i class="day-06-sample is-diamond" aria-hidden="true"></i>
@@ -174,20 +192,39 @@ onUnmounted(() => {
     </div>
 
     <div class="controls day-06-controls">
-      <button class="primary-action" type="button" :disabled="!canStart" @click="startBoth">
+      <button
+        class="primary-action"
+        type="button"
+        :disabled="!canStart"
+        @click="startBoth"
+      >
         同步開始
       </button>
-      <button class="secondary-action" type="button" :disabled="leftStatus !== 'ACTIVE'" @click="killLeft">
+      <button
+        class="secondary-action"
+        type="button"
+        :disabled="leftStatus !== 'ACTIVE'"
+        @click="killLeft"
+      >
         左側 context.kill()
       </button>
-      <button class="secondary-action" type="button" :disabled="rightStatus !== 'ACTIVE'" @click="revertRight">
+      <button
+        class="secondary-action"
+        type="button"
+        :disabled="rightStatus !== 'ACTIVE'"
+        @click="revertRight"
+      >
         右側 context.revert()
       </button>
-      <button class="secondary-action" type="button" @click="resetBoth">整組重設</button>
+      <button class="secondary-action" type="button" @click="resetBoth">
+        整組重設
+      </button>
     </div>
 
     <aside class="day-06-code-panel" aria-label="目前操作程式碼">
-      <header><span>LAST ACTION</span><strong>{{ lastAction }}</strong></header>
+      <header>
+        <span>LAST ACTION</span><strong>{{ lastAction }}</strong>
+      </header>
       <pre><code>{{ codeExample }}</code></pre>
     </aside>
   </section>
