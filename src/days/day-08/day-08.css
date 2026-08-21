@@ -1,0 +1,207 @@
+.day-08-page {
+  --day-08-ivory: #f5f1e8;
+  --day-08-snorlax: #365f64;
+  --day-08-snorlax-face: #f1dfb6;
+  padding-bottom: 96px;
+}
+
+.day-08-description {
+  max-width: 760px;
+  margin: -4px 0 24px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.day-08-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 16px;
+}
+
+.day-08-canvas-card,
+.day-08-api-panel,
+.day-08-code-panel {
+  min-width: 0;
+  border: 1px solid var(--ink);
+}
+
+.day-08-canvas-card {
+  background: var(--day-08-ivory);
+}
+
+.day-08-canvas-card > header,
+.day-08-canvas-card > footer,
+.day-08-api-panel > header,
+.day-08-code-panel > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  font: 700 0.66rem/1.3 "Cascadia Code", Consolas, monospace;
+  letter-spacing: 0.08em;
+}
+
+.day-08-canvas-card > header {
+  border-bottom: 1px solid var(--ink);
+}
+
+.day-08-canvas-card > header strong {
+  color: var(--signal);
+  text-align: right;
+}
+
+.day-08-canvas-shell {
+  display: grid;
+  min-height: 440px;
+  padding: 16px;
+  place-items: center;
+  background:
+    linear-gradient(rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 33, 43, 0.08) 1px, transparent 1px),
+    var(--surface);
+  background-size: 24px 24px;
+}
+
+.day-08-canvas-shell canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.day-08-canvas-card > footer {
+  border-top: 1px solid var(--ink);
+  color: var(--muted);
+  font-size: 0.61rem;
+}
+
+.day-08-api-panel {
+  color: #d9e2e8;
+  background: var(--ink);
+}
+
+.day-08-api-panel > header,
+.day-08-code-panel > header {
+  border-bottom: 1px solid var(--muted);
+  color: #91a2b0;
+}
+
+.day-08-api-panel > header strong,
+.day-08-code-panel > header strong {
+  color: #85b4b2;
+}
+
+.day-08-api-panel ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.day-08-api-panel li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  min-height: 72px;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(82, 97, 111, 0.58);
+  opacity: 0.48;
+}
+
+.day-08-api-panel li[data-active="true"] {
+  background: rgba(111, 146, 148, 0.18);
+  opacity: 1;
+}
+
+.day-08-api-panel li > span {
+  color: #85b4b2;
+  font: 750 0.7rem/1 "Cascadia Code", Consolas, monospace;
+}
+
+.day-08-api-panel li div {
+  display: grid;
+  gap: 7px;
+}
+
+.day-08-api-panel li strong,
+.day-08-api-panel li small {
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+
+.day-08-api-panel li strong {
+  font-size: 0.75rem;
+}
+
+.day-08-api-panel li small {
+  color: #91a2b0;
+  font-size: 0.65rem;
+}
+
+.day-08-controls {
+  flex-wrap: wrap;
+}
+
+.day-08-code-panel {
+  margin-top: 24px;
+  color: #d9e2e8;
+  background: var(--ink);
+}
+
+.day-08-code-panel pre {
+  max-height: 620px;
+  margin: 0;
+  padding: 20px;
+  overflow: auto;
+}
+
+.day-08-code-panel code {
+  padding: 0;
+  color: #c6d2da;
+  background: transparent;
+  font: 600 0.72rem/1.68 "Cascadia Code", Consolas, monospace;
+}
+
+@media (max-width: 900px) {
+  .day-08-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .day-08-api-panel ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .day-08-page {
+    padding-bottom: 68px;
+  }
+
+  .day-08-canvas-card > header,
+  .day-08-code-panel > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .day-08-canvas-card > header strong {
+    text-align: left;
+  }
+
+  .day-08-canvas-shell {
+    min-height: 300px;
+  }
+
+  .day-08-controls {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-08-api-panel ol {
+    grid-template-columns: 1fr;
+  }
+
+  .day-08-canvas-card > footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

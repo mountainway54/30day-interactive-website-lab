@@ -61,6 +61,15 @@ const router = createRouter({
         title: 'GSAP 動畫管理與高頻互動',
       },
     },
+    {
+      path: '/day-08',
+      name: 'day-08',
+      component: () => import('@/days/day-08/Day08View.vue'),
+      meta: {
+        day: 8,
+        title: 'Canvas 基本圖形：畫一張卡比獸頭像',
+      },
+    },
   ],
 })
 

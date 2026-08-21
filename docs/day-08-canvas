@@ -1,0 +1,100 @@
+# Day 7｜認識 Canvas,畫出第一個圖形
+
+網頁上的動態圖表、2D 遊戲畫面、粒子動畫和簽名板，很多都可以透過 HTML5 的 `<canvas>` 來實現。這篇文章會從 Canvas 2D 繪圖的基本概念開始，帶你一步步畫出第一個 2D 圖形。
+
+### Canvas 是什麼？為甚麼要用？
+
+`<canvas>` 是 HTML5 新增的一塊繪圖畫布，我們可以用 JS 在上面畫圖形、文字、圖片，甚至做動畫。
+
+> 你可能會想這些東西用 HTML、CSS 不是也做得到嗎？
+
+這樣說也沒錯啦XD，但差別在於，傳統HTML+CSS 通常是建立一個個 DOM 元素，再去調整它們的樣式和位置；`<canvas>` 則是一張由像素組成的點陣圖（bitmap），比較像真的拿了一張畫布，直接用 JavaScript 告訴它「在哪個座標、畫什麼東西」。所以當畫面上有很多東西要一直移動、變化或重新繪製時，就很適合使用 Canvas。
+
+### 建立 Canvas 畫布、取得畫筆與座標系統
+
+我們先在檔案中設定畫布與畫筆，先在 HTML 放入 `<canvas>`：
+
+```html
+<canvas id="myCanvas" width="400" height="300"></canvas>
+
+<script setup>
+  const canvas = document.getElementById("myCanvas");
+  const ctx = canvas.getContext("2d");
+</script>
+```
+
+`#myCanvas` 就是我們的畫布，可以用 `width` 和 `height` 來設定尺寸；接著用 JavaScript 找到元素，再取得 2D 繪圖環境（context），之後的繪圖指令都會透過 `ctx` 執行，你可以把`ctx`想成畫筆。
+
+座標系統的部分，只需要注意，Canvas 的座標原點 `(0, 0)` 位於**左上角**，x 軸數值越大會越往右，而 y 軸數值越大則會越往下。這與一般數學座標系統的 y 軸方向相反，我都是直接記得，原點是在左上，這樣就不會搞混了~~
+
+### 基本繪圖 API
+
+#### 矩形（Rect）
+
+Canvas 有三個常用的矩形方法：
+
+```jsx
+ctx.fillRect(50, 50, 100, 80); // 畫填色矩形
+ctx.strokeRect(200, 50, 100, 80); // 畫矩形邊框
+ctx.clearRect(0, 0, 50, 50); // 清除一塊區域，恢復透明，橡皮擦的概念
+```
+
+它們的參數都是 `(x, y, 寬, 高)`，其中 `x`、`y` 是矩形左上角的座標。
+
+#### 路徑（Path）自訂形狀
+
+```jsx
+ctx.beginPath(); // 開始新路徑
+ctx.moveTo(50, 200); // 移到起點，不畫線
+ctx.lineTo(150, 250); // 從目前位置畫到這個點
+ctx.lineTo(100, 300); // 再畫到下一個點
+ctx.closePath(); // 連回起點，形成封閉圖形
+ctx.stroke(); // 畫出邊框
+```
+
+流程很簡單：`beginPath()` 開始路徑 → `moveTo()` 設定起點 → `lineTo()` 畫線 → `closePath()` 連回起點 → 最後用 `stroke()` 畫出邊框。如果想填滿圖形，則可以改用 `fill()`。
+
+每次畫新圖形前，記得呼叫 `beginPath()`。少了這一步，新路徑可能會接到上一條路徑，出現意料之外的線條。
+
+### 圓形與弧線
+
+圓形和弧線都使用 `arc()`：
+
+```jsx
+ctx.beginPath();
+ctx.arc(200, 150, 50, 0, Math.PI * 2); // 畫完整的圓
+ctx.fill();
+```
+
+`arc()` 的參數是 `(x, y, 半徑, 起始角度, 結束角度)`。`x`、`y` 是圓心座標，角度使用弧度（radian）。完整一圈是 `Math.PI * 2`，也就是 360 度。若要畫半圓，可以把角度設為 `0` 到 `Math.PI`。
+
+### 顏色與線條樣式
+
+畫圖前可以先像這樣，設定填色、邊框顏色和線條粗細：
+
+```jsx
+ctx.fillStyle = "#ff6b6b"; // 填色
+ctx.strokeStyle = "#4834d4"; // 邊框顏色
+ctx.lineWidth = 4; // 線條粗細
+```
+
+樣式要在繪圖指令之前設定，才會套用到接下來的圖形。`fillStyle` 和 `strokeStyle` 可以使用色碼、`rgb()`、`rgba()` 或顏色名稱，例如 `"tomato"`。
+
+### 動手練習實作畫一張圖
+
+把前面的技巧組合起來，我們可以用簡單的幾何圖形，畫一張簡單的圖，這邊我就先示範畫卡比獸（五官簡單又可愛 XD）請看 demo ⇒ Day7 demo
+
+```jsx
+程式碼;
+```
+
+### 小結
+
+這篇文章介紹了幾個 Canvas 基礎：
+
+- Canvas 是點陣圖，修改內容時通常要清除後重畫。
+- 原點在左上角，y 值越大，位置越往下。
+- `fillRect()`、路徑和 `arc()` 可以畫出基本圖形。
+- `fillStyle`、`strokeStyle` 和 `lineWidth` 用來調整樣式。
+
+下一篇會介紹狀態管理、座標轉換，以及文字和圖片的繪製方式。
