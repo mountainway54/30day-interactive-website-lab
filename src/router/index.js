@@ -70,6 +70,15 @@ const router = createRouter({
         title: 'Canvas 基本圖形：畫一張卡比獸頭像',
       },
     },
+    {
+      path: '/day-09',
+      name: 'day-09',
+      component: () => import('@/days/day-09/Day09View.vue'),
+      meta: {
+        day: 9,
+        title: '用 GSAP 讓 Canvas 卡比獸動起來',
+      },
+    },
   ],
 })
 
