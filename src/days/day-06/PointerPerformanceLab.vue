@@ -22,8 +22,12 @@ let setY = null;
 let reducedMotionQuery = null;
 
 const isQuickTo = computed(() => mode.value === "quickTo");
-const modeLabel = computed(() => (isQuickTo.value ? "quickTo()" : "quickSetter()"));
-const behaviorLabel = computed(() => (isQuickTo.value ? "TWEENED" : "IMMEDIATE"));
+const modeLabel = computed(() =>
+  isQuickTo.value ? "quickTo()" : "quickSetter()",
+);
+const behaviorLabel = computed(() =>
+  isQuickTo.value ? "TWEENED" : "IMMEDIATE",
+);
 const codeExample = computed(() =>
   isQuickTo.value
     ? `const xTo = gsap.quickTo(follower, "x", {\n  duration: 0.45,\n  ease: "power3.out"\n});\n\nstage.addEventListener("pointermove", (event) => {\n  xTo(nextX);\n});`
@@ -32,8 +36,12 @@ const codeExample = computed(() =>
 
 function readFollowerPosition() {
   if (!follower.value) return;
-  followerX.value = Math.round(Number(gsap.getProperty(follower.value, "x")) || 0);
-  followerY.value = Math.round(Number(gsap.getProperty(follower.value, "y")) || 0);
+  followerX.value = Math.round(
+    Number(gsap.getProperty(follower.value, "x")) || 0,
+  );
+  followerY.value = Math.round(
+    Number(gsap.getProperty(follower.value, "y")) || 0,
+  );
 }
 
 function clearMode() {
@@ -77,8 +85,16 @@ function getClampedPosition(event) {
   const halfHeight = followerRect.height / 2;
 
   return {
-    x: gsap.utils.clamp(0, rect.width - followerRect.width, event.clientX - rect.left - halfWidth),
-    y: gsap.utils.clamp(0, rect.height - followerRect.height, event.clientY - rect.top - halfHeight),
+    x: gsap.utils.clamp(
+      0,
+      rect.width - followerRect.width,
+      event.clientX - rect.left - halfWidth,
+    ),
+    y: gsap.utils.clamp(
+      0,
+      rect.height - followerRect.height,
+      event.clientY - rect.top - halfHeight,
+    ),
   };
 }
 
@@ -139,17 +155,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section ref="root" class="experiment day-06-experiment" aria-labelledby="day-06-pointer-title">
+  <section
+    ref="root"
+    class="experiment day-06-experiment"
+    aria-labelledby="day-06-pointer-title"
+  >
     <header class="section-heading">
       <div>
         <p>EXPERIMENT B / HIGH-FREQUENCY INPUT</p>
-        <h2 id="day-06-pointer-title">同一個座標，兩種更新策略</h2>
+        <h2 id="day-06-pointer-title">
+          比較兩種 <span class="heading-english">Pointer</span>
+        </h2>
       </div>
       <span class="day-06-index">POINTER → TRANSFORM</span>
     </header>
 
     <p class="day-06-description">
-      在舞台內移動滑鼠或手指，再切換模式比較平滑追趕與立即貼合。兩者都會重用預先建立的更新函式。
+      在舞台內移動滑鼠或手指，再切換模式比較平滑追趕與立即貼合。兩者都會重用預先建立的更新函式。quickTo()
+      會透過 Tween 平滑追向新值；quickSetter() 則不建立
+      Tween，收到新值就立即套用。
     </p>
 
     <p v-if="hasReducedMotion" class="day-06-motion-warning" role="status">
@@ -163,8 +187,12 @@ onUnmounted(() => {
           class="day-06-pointer-stage"
           aria-label="Pointer 跟隨互動區，移動滑鼠或手指控制圓形"
         >
-          <span class="day-06-axis-label is-x" aria-hidden="true">X / INPUT</span>
-          <span class="day-06-axis-label is-y" aria-hidden="true">Y / OUTPUT</span>
+          <span class="day-06-axis-label is-x" aria-hidden="true"
+            >X / INPUT</span
+          >
+          <span class="day-06-axis-label is-y" aria-hidden="true"
+            >Y / OUTPUT</span
+          >
           <i ref="follower" class="day-06-follower" aria-hidden="true">
             <span></span>
           </i>
@@ -184,28 +212,57 @@ onUnmounted(() => {
           </button>
           <div>
             <strong>{{ modeLabel }}</strong>
-            <p>{{ isQuickTo ? "重用 Tween，帶 easing 追向新值" : "略過 Tween，立即寫入 transform" }}</p>
+            <p>
+              {{
+                isQuickTo
+                  ? "重用 Tween，帶 easing 追向新值"
+                  : "略過 Tween，立即寫入 transform"
+              }}
+            </p>
           </div>
           <b>{{ behaviorLabel }}</b>
         </div>
       </div>
 
       <aside class="day-06-hud" aria-label="Pointer 實驗即時狀態">
-        <header><span>LIVE INPUT</span><strong aria-live="polite">{{ modeLabel }}</strong></header>
+        <header>
+          <span>LIVE INPUT</span
+          ><strong aria-live="polite">{{ modeLabel }}</strong>
+        </header>
         <dl>
-          <div><dt>POINTER X</dt><dd>{{ String(pointerX).padStart(3, "0") }}</dd></div>
-          <div><dt>POINTER Y</dt><dd>{{ String(pointerY).padStart(3, "0") }}</dd></div>
-          <div><dt>FOLLOWER X</dt><dd>{{ String(followerX).padStart(3, "0") }}</dd></div>
-          <div><dt>FOLLOWER Y</dt><dd>{{ String(followerY).padStart(3, "0") }}</dd></div>
-          <div><dt>UPDATES</dt><dd>{{ String(updateCount).padStart(4, "0") }}</dd></div>
-          <div><dt>MODEL</dt><dd>{{ behaviorLabel }}</dd></div>
+          <div>
+            <dt>POINTER X</dt>
+            <dd>{{ String(pointerX).padStart(3, "0") }}</dd>
+          </div>
+          <div>
+            <dt>POINTER Y</dt>
+            <dd>{{ String(pointerY).padStart(3, "0") }}</dd>
+          </div>
+          <div>
+            <dt>FOLLOWER X</dt>
+            <dd>{{ String(followerX).padStart(3, "0") }}</dd>
+          </div>
+          <div>
+            <dt>FOLLOWER Y</dt>
+            <dd>{{ String(followerY).padStart(3, "0") }}</dd>
+          </div>
+          <div>
+            <dt>UPDATES</dt>
+            <dd>{{ String(updateCount).padStart(4, "0") }}</dd>
+          </div>
+          <div>
+            <dt>MODEL</dt>
+            <dd>{{ behaviorLabel }}</dd>
+          </div>
         </dl>
         <p aria-live="polite">{{ lastAction }}</p>
       </aside>
     </div>
 
     <aside class="day-06-code-panel" aria-label="目前 Pointer 模式程式碼">
-      <header><span>ACTIVE IMPLEMENTATION</span><strong>{{ behaviorLabel }}</strong></header>
+      <header>
+        <span>ACTIVE IMPLEMENTATION</span><strong>{{ behaviorLabel }}</strong>
+      </header>
       <pre><code>{{ codeExample }}</code></pre>
     </aside>
   </section>

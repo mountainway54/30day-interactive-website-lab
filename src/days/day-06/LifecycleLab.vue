@@ -132,15 +132,18 @@ onUnmounted(() => {
     <header class="section-heading">
       <div>
         <p>EXPERIMENT A / ANIMATION OWNERSHIP</p>
-        <h2 id="day-06-lifecycle-title">停在現場，還是回到原點？</h2>
+        <h2 id="day-06-lifecycle-title">
+          比較兩種 <span class="heading-english">context</span> 方法
+        </h2>
       </div>
       <span class="day-06-index">KILL ↔ REVERT</span>
     </header>
 
     <p class="day-06-description">
-      兩側使用完全相同的 context。觀察
-      <code>context.kill()</code> 如何停在當下，以及
+      兩側使用完全相同的 context。觀察 如何停在當下，以及
       <code>context.revert()</code> 如何連同 GSAP 寫入的樣式一起還原。
+      <code>context.revert()</code> 會還原動畫造成的樣式變更並清除動畫；
+      <code>context.kill()</code> 則只停止並清除動畫，不會還原元素樣式。
     </p>
 
     <div class="day-06-lifecycle-grid">
