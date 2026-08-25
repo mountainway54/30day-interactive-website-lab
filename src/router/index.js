@@ -79,6 +79,15 @@ const router = createRouter({
         title: '用 GSAP 讓 Canvas 卡比獸動起來',
       },
     },
+    {
+      path: '/day-10',
+      name: 'day-10',
+      component: () => import('@/days/day-10/Day10View.vue'),
+      meta: {
+        day: 10,
+        title: '讓 Canvas 卡比獸跟著游標看',
+      },
+    },
   ],
 })
 
