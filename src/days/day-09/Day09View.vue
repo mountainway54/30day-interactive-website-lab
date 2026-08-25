@@ -1,5 +1,12 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+} from "vue";
 import { gsap } from "gsap";
 import "./day-09.css";
 
@@ -41,35 +48,9 @@ const statusLabel = computed(() => {
 });
 
 const toggleLabel = computed(() => (isPaused.value ? "繼續動畫" : "暫停動畫"));
-const progressLabel = computed(() => `${String(Math.round(progress.value * 100)).padStart(2, "0")}%`);
-
-const codeExample = `const motion = {
-  eyeX: -6,
-  leftEarRotation: -3,
-  rightEarRotation: 3,
-};
-
-const timeline = gsap.timeline({
-  repeat: -1,
-  yoyo: true,
-  onUpdate: drawScene,
-});
-
-timeline.to(motion, {
-  eyeX: 6,
-  leftEarRotation: 3,
-  rightEarRotation: -3,
-  duration: 1.8,
-  ease: "sine.inOut",
-});
-
-function drawEar(ctx, pivot, rotation) {
-  ctx.save();
-  ctx.translate(pivot.x, pivot.y);
-  ctx.rotate((rotation * Math.PI) / 180);
-  // 以耳根為原點畫出三角形
-  ctx.restore();
-}`;
+const progressLabel = computed(
+  () => `${String(Math.round(progress.value * 100)).padStart(2, "0")}%`,
+);
 
 function resizeCanvas() {
   const canvas = canvasRef.value;
@@ -183,14 +164,22 @@ function drawScene() {
   drawHead(ctx);
   drawEar(
     ctx,
-    [{ x: 96, y: 108 }, { x: 118, y: 48 }, { x: 154, y: 76 }],
-    { x: 132, y: 91 },
+    [
+      { x: 96, y: 108 },
+      { x: 118, y: 48 },
+      { x: 154, y: 76 },
+    ],
+    { x: 96, y: 108 },
     motion.leftEarRotation,
   );
   drawEar(
     ctx,
-    [{ x: 246, y: 76 }, { x: 282, y: 48 }, { x: 304, y: 108 }],
-    { x: 268, y: 91 },
+    [
+      { x: 246, y: 76 },
+      { x: 282, y: 48 },
+      { x: 304, y: 108 },
+    ],
+    { x: 304, y: 108 },
     motion.rightEarRotation,
   );
   drawFace(ctx);
@@ -309,8 +298,8 @@ onBeforeUnmount(() => {
         <div>
           <p>GSAP TIMELINE / CANVAS STATE</p>
           <h2>
-            用 <span class="heading-english">GSAP</span> 讓
-            <span class="heading-english">Canvas</span> 卡比獸動起來
+            搭配 <span class="heading-english">GSAP</span> 讓
+            <span class="heading-english">Canvas</span> 動起來
           </h2>
         </div>
         <div class="status" :data-active="!isPaused && !reduceMotion">
@@ -320,8 +309,8 @@ onBeforeUnmount(() => {
       </header>
 
       <p class="day-09-description">
-        GSAP 改變的不是 Canvas 元素，而是繪圖狀態。眼睛水平游移、雙耳反向擺動，
-        每次更新都清除並重畫完整畫面。
+        GSAP 控制的是繪圖狀態(數值)，而非 Canvas 元素。 <br />
+        眼睛水平游移、雙耳反向擺動，每次更新都清除並重畫完整畫面。
       </p>
 
       <div class="day-09-layout">
@@ -355,17 +344,33 @@ onBeforeUnmount(() => {
             <div>
               <dt><span>EYE X</span><small>水平位移</small></dt>
               <dd>{{ motion.eyeX.toFixed(1) }} px</dd>
-              <i class="day-09-meter"><b :style="{ transform: `translateX(${motion.eyeX * 4}px)` }"></b></i>
+              <i class="day-09-meter"
+                ><b
+                  :style="{ transform: `translateX(${motion.eyeX * 4}px)` }"
+                ></b
+              ></i>
             </div>
             <div>
               <dt><span>EAR L</span><small>左耳角度</small></dt>
               <dd>{{ motion.leftEarRotation.toFixed(1) }}°</dd>
-              <i class="day-09-meter"><b :style="{ transform: `translateX(${motion.leftEarRotation * 8}px)` }"></b></i>
+              <i class="day-09-meter"
+                ><b
+                  :style="{
+                    transform: `translateX(${motion.leftEarRotation * 8}px)`,
+                  }"
+                ></b
+              ></i>
             </div>
             <div>
               <dt><span>EAR R</span><small>右耳角度</small></dt>
               <dd>{{ motion.rightEarRotation.toFixed(1) }}°</dd>
-              <i class="day-09-meter"><b :style="{ transform: `translateX(${motion.rightEarRotation * 8}px)` }"></b></i>
+              <i class="day-09-meter"
+                ><b
+                  :style="{
+                    transform: `translateX(${motion.rightEarRotation * 8}px)`,
+                  }"
+                ></b
+              ></i>
             </div>
           </dl>
           <footer aria-live="polite">
@@ -392,7 +397,11 @@ onBeforeUnmount(() => {
         >
           重新播放
         </button>
-        <button class="keep-running-action" type="button" @click="resetAnimation">
+        <button
+          class="keep-running-action"
+          type="button"
+          @click="resetAnimation"
+        >
           重設靜止畫面
         </button>
       </div>
@@ -406,7 +415,45 @@ onBeforeUnmount(() => {
           <span id="day-09-code-title">CANVAS-MOTION.JS</span>
           <strong>狀態更新 → 完整重畫</strong>
         </header>
-        <pre><code>{{ codeExample }}</code></pre>
+        <pre><code><span class="day-09-code-comment">// 建立卡比獸每一幀會使用的動畫狀態</span>
+<span class="day-09-code-keyword">const</span> motion = {
+  eyeX: <span class="day-09-code-number">-6</span>, <span class="day-09-code-comment">// 眼睛從左側開始移動</span>
+  leftEarRotation: <span class="day-09-code-number">-3</span>, <span class="day-09-code-comment">// 左耳初始旋轉角度</span>
+  rightEarRotation: <span class="day-09-code-number">3</span>, <span class="day-09-code-comment">// 右耳朝相反方向旋轉</span>
+};
+
+<span class="day-09-code-comment">// 建立會無限往返播放的 GSAP Timeline</span>
+<span class="day-09-code-keyword">const</span> timeline = gsap.timeline({
+  repeat: <span class="day-09-code-number">-1</span>, <span class="day-09-code-comment">// -1 代表無限重複</span>
+  yoyo: <span class="day-09-code-keyword">true</span>, <span class="day-09-code-comment">// 抵達終點後反向播放</span>
+  onUpdate: drawScene, <span class="day-09-code-comment">// 每次更新都重新繪製 Canvas</span>
+});
+
+<span class="day-09-code-comment">// 將眼睛與左右耳同步補間到另一側</span>
+timeline.to(motion, {
+  eyeX: <span class="day-09-code-number">6</span>, <span class="day-09-code-comment">// 眼睛往右移動</span>
+  leftEarRotation: <span class="day-09-code-number">3</span>, <span class="day-09-code-comment">// 左耳往外旋轉</span>
+  rightEarRotation: <span class="day-09-code-number">-3</span>, <span class="day-09-code-comment">// 右耳維持反方向</span>
+  duration: <span class="day-09-code-number">1.8</span>, <span class="day-09-code-comment">// 單程動畫時間為 1.8 秒</span>
+  ease: <span class="day-09-code-string">"sine.inOut"</span>, <span class="day-09-code-comment">// 使用平順的加速與減速</span>
+});
+
+<span class="day-09-code-comment">// 以三角形外側頂點為中心旋轉並繪製耳朵</span>
+<span class="day-09-code-keyword">function</span> <span class="day-09-code-function">drawEar</span>(ctx, points, pivot, rotation) {
+  ctx.save(); <span class="day-09-code-comment">// 保存目前的 Canvas 狀態</span>
+  ctx.translate(pivot.x, pivot.y); <span class="day-09-code-comment">// 將原點移到外側頂點</span>
+  ctx.rotate((rotation * Math.PI) / <span class="day-09-code-number">180</span>); <span class="day-09-code-comment">// 將角度轉成弧度</span>
+
+  <span class="day-09-code-comment">// 改用相對座標畫出三角形耳朵</span>
+  ctx.beginPath();
+  ctx.moveTo(points[<span class="day-09-code-number">0</span>].x - pivot.x, points[<span class="day-09-code-number">0</span>].y - pivot.y);
+  ctx.lineTo(points[<span class="day-09-code-number">1</span>].x - pivot.x, points[<span class="day-09-code-number">1</span>].y - pivot.y);
+  ctx.lineTo(points[<span class="day-09-code-number">2</span>].x - pivot.x, points[<span class="day-09-code-number">2</span>].y - pivot.y);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore(); <span class="day-09-code-comment">// 還原座標系，避免影響其他圖形</span>
+}</code></pre>
       </section>
     </section>
   </main>

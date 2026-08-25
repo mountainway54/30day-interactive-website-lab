@@ -214,6 +214,26 @@
   font: 600 0.72rem/1.68 "Cascadia Code", Consolas, monospace;
 }
 
+.day-09-code-comment {
+  color: #91a2b0;
+  font-style: italic;
+}
+
+.day-09-code-keyword,
+.day-09-code-number {
+  color: #e66b5e;
+  font-weight: 700;
+}
+
+.day-09-code-string {
+  color: var(--day-09-mint);
+}
+
+.day-09-code-function {
+  color: #d6c4a8;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .day-09-layout {
     grid-template-columns: 1fr;
