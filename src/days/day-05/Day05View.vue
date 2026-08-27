@@ -1,4 +1,5 @@
 <script setup>
+import LabNav from '@/components/LabNav.vue'
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
@@ -347,10 +348,7 @@ onUnmounted(() => {
 
 <template>
   <main class="day-page day-05-page">
-    <nav class="lab-nav" aria-label="系列導覽">
-      <a class="brand" href="#/day-01">Creative Frontend Lab</a>
-      <span>05 / 30</span>
-    </nav>
+    <LabNav />
 
     <section
       ref="story"

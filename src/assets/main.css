@@ -58,7 +58,10 @@ a:focus-visible {
 }
 
 .lab-nav {
+  position: relative;
+  z-index: 30;
   display: flex;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 15px;
@@ -74,6 +77,95 @@ a:focus-visible {
 .brand {
   color: inherit;
   text-decoration: none;
+}
+
+/* Shared day navigation */
+.lab-nav .brand {
+  min-width: 0;
+  line-height: 1.5;
+}
+.lab-day-picker {
+  position: relative;
+  flex-shrink: 0;
+}
+.lab-day-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 24px;
+  min-width: 160px;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.lab-day-total {
+  color: var(--ink);
+}
+.lab-day-trigger:hover,
+.lab-day-trigger[aria-expanded="true"] {
+  background: var(--signal);
+}
+.lab-day-chevron {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.lab-day-chevron-open {
+  transform: rotate(180deg);
+}
+.lab-day-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.lab-day-list {
+  max-height: min(520px, calc(100dvh - 190px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lab-day-list li + li {
+  border-top: 1px solid var(--ink);
+}
+.lab-day-link {
+  display: grid;
+  place-items: center;
+  min-height: 24px;
+  padding: 8px;
+  border-left: 3px solid transparent;
+  color: var(--ink);
+  text-decoration: none;
+}
+.lab-day-link:hover {
+  background: rgba(23, 33, 43, 0.06);
+}
+.lab-day-link[aria-current="page"] {
+  border-left-color: var(--signal);
+  background: rgba(198, 61, 47, 0.08);
+}
+.lab-day-link:focus-visible {
+  outline-offset: -3px;
+}
+.lab-day-number {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.lab-day-link[aria-current="page"] .lab-day-number {
+  color: var(--signal);
 }
 
 .section-heading p {

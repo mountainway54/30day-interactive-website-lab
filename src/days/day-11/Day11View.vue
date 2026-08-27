@@ -1,4 +1,5 @@
 <script setup>
+import LabNav from '@/components/LabNav.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import './day-11.css'
 import CubeDemo from './CubeDemo.vue'
@@ -123,10 +124,7 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="day-page day-11-page">
-    <nav class="lab-nav" aria-label="系列導覽">
-      <a class="brand" href="#/day-01">Creative Frontend Lab</a>
-      <span>11 / 30</span>
-    </nav>
+    <LabNav />
     <section class="experiment">
       <header class="section-heading">
         <div>

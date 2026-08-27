@@ -1,4 +1,5 @@
 <script setup>
+import LabNav from '@/components/LabNav.vue'
 import { computed, reactive, ref } from "vue";
 
 import "./day-02.css";
@@ -41,10 +42,7 @@ function resetDemo() {
 
 <template>
   <main class="day-page">
-    <nav class="lab-nav" aria-label="系列導覽">
-      <a class="brand" href="#/day-01">Creative Frontend Lab</a>
-      <span>02 / 30</span>
-    </nav>
+    <LabNav />
 
     <section class="experiment" aria-labelledby="day-02-title">
       <header class="section-heading">

@@ -1,4 +1,5 @@
 <script setup>
+import LabNav from '@/components/LabNav.vue'
 import { gsap } from "gsap";
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 
@@ -235,10 +236,7 @@ onUnmounted(() => {
 
 <template>
   <main class="day-page">
-    <nav class="lab-nav" aria-label="系列導覽">
-      <a class="brand" href="#/day-01">Creative Frontend Lab</a>
-      <span>03 / 30</span>
-    </nav>
+    <LabNav />
 
     <section class="experiment" aria-labelledby="day-03-title">
       <header class="section-heading">

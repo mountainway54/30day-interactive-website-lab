@@ -1,4 +1,5 @@
 <script setup>
+import LabNav from '@/components/LabNav.vue'
 import {
   computed,
   nextTick,
@@ -288,10 +289,7 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="day-page day-09-page">
-    <nav class="lab-nav" aria-label="系列導覽">
-      <a class="brand" href="#/day-01">Creative Frontend Lab</a>
-      <span>09 / 30</span>
-    </nav>
+    <LabNav />
 
     <section class="experiment day-09-experiment">
       <header class="section-heading">
