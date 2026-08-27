@@ -88,6 +88,15 @@ const router = createRouter({
         title: '讓 Canvas 卡比獸跟著游標看',
       },
     },
+    {
+      path: '/day-11',
+      name: 'day-11',
+      component: () => import('@/days/day-11/Day11View.vue'),
+      meta: {
+        day: 11,
+        title: 'WebGL 漸層三角形',
+      },
+    },
   ],
 })
 
