@@ -1,5 +1,5 @@
 <script setup>
-import LabNav from '@/components/LabNav.vue'
+import LabNav from "@/components/LabNav.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import "./day-08.css";
 
@@ -315,11 +315,6 @@ onBeforeUnmount(() => {
           {{ isDrawing ? "DRAWING" : isCleared ? "CLEARED" : "COMPLETE" }}
         </div>
       </header>
-
-      <p class="day-08-description">
-        只用橢圓、三角形與直線組合角色頭像。每個階段都清除並重新繪製，直接觀察
-        Canvas 基本 API 的結果。
-      </p>
 
       <div class="day-08-layout">
         <div class="day-08-canvas-card">
