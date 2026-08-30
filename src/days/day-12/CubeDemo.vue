@@ -185,27 +185,27 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="experiment day-11-followup" aria-labelledby="day-11-cube-title">
+  <section class="experiment" aria-labelledby="day-12-cube-title">
     <header class="section-heading">
       <div>
         <p>WEBGL / FROM 2D TO 3D</p>
-        <h2 id="day-11-cube-title">從三角形到 <span class="heading-english">3D</span> 立方體</h2>
+        <h2 id="day-12-cube-title">從三角形到 <span class="heading-english">3D</span> 立方體</h2>
       </div>
     </header>
-    <p class="day-11-description">加上 Z 軸，將 12 個三角形組成六個面。拖曳立方體，觀察透視與前後遮擋。</p>
-    <div class="day-11-layout">
-      <div class="day-11-stage">
-        <div class="day-11-stage-label">PERSPECTIVE / 3D</div>
-        <canvas ref="canvas" class="day-11-cube-canvas" role="img"
-          aria-label="可旋轉的粉紅與藍紫漸層立方體" aria-describedby="day-11-cube-help"
+    <p class="day-12-description">加上 Z 軸，將 12 個三角形組成六個面。拖曳立方體，觀察透視與前後遮擋。</p>
+    <div class="day-12-layout">
+      <div class="day-12-stage">
+        <div class="day-12-stage-label">PERSPECTIVE / 3D</div>
+        <canvas ref="canvas" class="day-12-cube-canvas" role="img"
+          aria-label="可旋轉的粉紅與藍紫漸層立方體" aria-describedby="day-12-cube-help"
           @pointerdown="pointerDown" @pointermove="pointerMove" @pointerup="pointerEnd"
           @pointercancel="pointerEnd" @lostpointercapture="pointerEnd"
           @webglcontextlost="contextLost" @webglcontextrestored="contextRestored">
           你的瀏覽器不支援 Canvas。
         </canvas>
-        <p id="day-11-cube-help" class="day-11-coordinate-note">拖曳時顯示三角形框線，放開隱藏</p>
+        <p id="day-12-cube-help" class="day-12-coordinate-note">拖曳時顯示三角形框線，放開隱藏</p>
       </div>
-      <p v-if="status" class="day-11-status" role="status" aria-live="polite">{{ status }}</p>
+      <p v-if="status" class="day-12-status" role="status" aria-live="polite">{{ status }}</p>
     </div>
   </section>
 </template>

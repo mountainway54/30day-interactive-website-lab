@@ -2,7 +2,6 @@
 import LabNav from '@/components/LabNav.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import './day-11.css'
-import CubeDemo from './CubeDemo.vue'
 
 const canvasRef = ref(null)
 const status = ref('')
@@ -167,6 +166,5 @@ onBeforeUnmount(() => {
         <p v-if="status" class="day-11-status" role="status" aria-live="polite">{{ status }}</p>
       </div>
     </section>
-    <CubeDemo />
   </main>
 </template>

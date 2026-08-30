@@ -97,6 +97,15 @@ const router = createRouter({
         title: 'WebGL 漸層三角形',
       },
     },
+    {
+      path: '/day-12',
+      name: 'day-12',
+      component: () => import('@/days/day-12/Day12View.vue'),
+      meta: {
+        day: 12,
+        title: 'WebGL 3D 立方體',
+      },
+    },
   ],
 })
 
