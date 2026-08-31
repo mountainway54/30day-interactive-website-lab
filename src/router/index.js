@@ -106,6 +106,15 @@ const router = createRouter({
         title: 'WebGL 3D 立方體',
       },
     },
+    {
+      path: '/day-13',
+      name: 'day-13',
+      component: () => import('@/days/day-13/Day13View.vue'),
+      meta: {
+        day: 13,
+        title: 'WebGL 座標空間轉換',
+      },
+    },
   ],
 })
 
