@@ -1,0 +1,89 @@
+.day-14-page {
+  --day-14-ivory: #f5f1e8;
+  --day-14-sage: #899b8a;
+  --day-14-teal: #6f9294;
+  --day-14-ochre: #b38a4a;
+  --day-14-coral: #c97958;
+}
+
+.day-14-reference { padding: clamp(28px, 4vw, 48px); }
+
+.day-14-heading { margin-bottom: 16px; }
+
+.day-14-edition {
+  display: grid;
+  gap: 5px;
+  min-width: 168px;
+  padding: 11px 13px;
+  border: 1px solid var(--ink);
+  font: 700 0.62rem/1.2 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+.day-14-edition span { color: var(--muted); }
+.day-14-edition strong { color: var(--signal); font-size: 0.76rem; }
+
+.day-14-intro {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.day-14-sheet { margin-top: 28px; border: 1px solid var(--ink); background: var(--surface); }
+
+.day-14-type-section { position: relative; padding: 24px; border-left: 5px solid var(--day-14-sage); }
+.day-14-type-section + .day-14-type-section { border-top: 1px solid var(--ink); }
+.day-14-type-vector { border-left-color: var(--day-14-teal); }
+.day-14-type-matrix { border-left-color: var(--day-14-ochre); }
+.day-14-type-sampler { border-left-color: var(--day-14-coral); }
+
+.day-14-section-title {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.day-14-section-title p { margin: 0 0 3px; color: var(--signal); font: 700 0.62rem/1 'Cascadia Code', Consolas, monospace; letter-spacing: 0.12em; }
+.day-14-section-title h3 { margin: 0; font: 700 1.15rem/1.2 Georgia, 'Times New Roman', serif; }
+.day-14-section-title small { color: var(--muted); font: 700 0.62rem/1 'Cascadia Code', Consolas, monospace; letter-spacing: 0.08em; }
+
+.day-14-table-scroll { overflow-x: auto; border: 1px solid var(--ink); background: rgba(255, 255, 255, 0.42); }
+.day-14-table-scroll:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+
+.day-14-page table { width: 100%; min-width: 520px; border-collapse: collapse; }
+.day-14-page th,
+.day-14-page td { padding: 10px 13px; border-bottom: 1px solid rgba(23, 33, 43, 0.23); text-align: left; }
+.day-14-page tr:last-child td { border-bottom: 0; }
+.day-14-page th { color: var(--day-14-ivory); background: var(--ink); font: 700 0.66rem/1.25 'Cascadia Code', Consolas, monospace; letter-spacing: 0.08em; }
+.day-14-page td { color: var(--muted); font-size: 0.84rem; line-height: 1.4; }
+.day-14-page tbody tr:nth-child(even) { background: rgba(23, 33, 43, 0.035); }
+.day-14-page td:first-child { color: var(--ink); font-weight: 700; }
+.day-14-page td code { padding: 0; background: transparent; font-size: 0.78rem; white-space: nowrap; }
+.day-14-page td:last-child code { color: var(--muted); font-weight: 500; }
+.day-14-page .day-14-number { text-align: right; }
+.day-14-type-vector .day-14-number { width: 96px; padding-right: 24px; }
+.day-14-type-vector th:nth-child(4),
+.day-14-type-vector td:nth-child(4) { padding-left: 24px; }
+
+.day-14-note { display: flex; gap: 18px; align-items: baseline; margin: 0 0 18px; padding: 12px 14px; border: 1px solid var(--ink); background: var(--day-14-ivory); }
+.day-14-note strong { flex: 0 0 auto; color: var(--signal); font: 700 0.62rem/1 'Cascadia Code', Consolas, monospace; letter-spacing: 0.1em; }
+.day-14-note p { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
+.day-14-note code { color: var(--ink); background: rgba(23, 33, 43, 0.07); }
+
+.day-14-matrix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.day-14-matrix-grid h4 { margin: 0 0 10px; color: var(--muted); font-size: 0.82rem; }
+.day-14-matrix-grid h4 code { color: var(--ink); }
+.day-14-matrix-grid table { min-width: 320px; }
+
+@media (max-width: 760px) {
+  .day-14-reference { padding: 20px; }
+  .day-14-heading { gap: 18px; }
+  .day-14-edition { width: 100%; text-align: left; }
+  .day-14-type-section { padding: 20px 14px; }
+  .day-14-matrix-grid { grid-template-columns: 1fr; }
+  .day-14-note { align-items: flex-start; flex-direction: column; gap: 7px; }
+}

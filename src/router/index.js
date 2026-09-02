@@ -115,6 +115,15 @@ const router = createRouter({
         title: 'WebGL 座標空間轉換',
       },
     },
+    {
+      path: '/day-14',
+      name: 'day-14',
+      component: () => import('@/days/day-14/Day14View.vue'),
+      meta: {
+        day: 14,
+        title: 'GLSL 型別表',
+      },
+    },
   ],
 })
 
