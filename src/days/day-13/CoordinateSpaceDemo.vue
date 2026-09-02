@@ -35,7 +35,6 @@ const shaders = [];
 const vertexSource = `
 attribute vec3 a_position;
 attribute vec3 a_color;
-attribute vec3 a_normal;
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_projection;
@@ -43,9 +42,7 @@ uniform bool u_highlight;
 varying vec3 v_color;
 void main() {
   vec4 worldPosition = u_model * vec4(a_position, 1.0);
-  vec3 normal = mat3(u_model) * a_normal;
-  float light = 0.55 + 0.45 * max(dot(normal, normalize(vec3(-1.0, 2.0, 3.0))), 0.0);
-  v_color = a_color * light;
+  v_color = a_color;
   gl_Position = u_projection * u_view * worldPosition;
   gl_PointSize = u_highlight ? 18.0 : 1.0;
 }`;
@@ -419,7 +416,7 @@ function initialize() {
       for (const index of [0, 1, 2, 0, 2, 3]) {
         const position = face.p[index];
         const color = position[1] > 0 ? [0.91, 0.35, 0.68] : [0.22, 0.17, 0.79];
-        vertices.push(...position, ...color, ...face.n);
+        vertices.push(...position, ...color);
       }
     }
 
@@ -430,11 +427,10 @@ function initialize() {
     for (const [name, offset] of [
       ["a_position", 0],
       ["a_color", 12],
-      ["a_normal", 24],
     ]) {
       const location = gl.getAttribLocation(program, name);
       gl.enableVertexAttribArray(location);
-      gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 36, offset);
+      gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 24, offset);
     }
 
     modelLocation = gl.getUniformLocation(program, "u_model");

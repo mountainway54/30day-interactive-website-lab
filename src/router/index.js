@@ -124,6 +124,15 @@ const router = createRouter({
         title: 'GLSL 型別表',
       },
     },
+    {
+      path: '/day-15',
+      name: 'day-15',
+      component: () => import('@/days/day-15/Day15View.vue'),
+      meta: {
+        day: 15,
+        title: 'WebGL 固定平行光與亮度控制',
+      },
+    },
   ],
 })
 
