@@ -29,17 +29,17 @@ function sample() { source.value = createSample(); viewport.value?.load(source.v
         <div><p>glTF / Vertex data → Model</p><h2>從頂點資料，長出一個模型</h2></div>
         <span class="day-17-tag">DAY 17 · WEBGL</span>
       </header>
-      <p class="day-17-intro">貼上 Blender 匯出的 glTF JSON，將頂點與面索引還原成右側的 3D 模型。</p>
+      <p class="day-17-intro">貼上 Blender 匯出的 glTF JSON，將頂點與面索引還原成左側的 3D 模型。</p>
       <div class="day-17-workbench">
-        <section class="day-17-editor" aria-labelledby="day-17-input-label">
-          <div class="day-17-panel-heading"><label id="day-17-input-label" for="day-17-source">來源 / .gltf</label><span>{{ size }}</span></div>
-          <textarea id="day-17-source" v-model="source" spellcheck="false" aria-describedby="day-17-help" placeholder="在這裡貼上完整的 glTF 2.0 JSON…" @keydown.ctrl.enter.prevent="viewport?.load(source)" @keydown.meta.enter.prevent="viewport?.load(source)" />
-          <div class="day-17-editor-footer">JSON + EMBEDDED BUFFER <span>Ctrl / ⌘ + Enter 渲染</span></div>
-        </section>
         <section class="day-17-preview" aria-label="模型渲染預覽">
           <div class="day-17-panel-heading"><span>結果 / 3D 模型</span><span>{{ wireframe ? 'WIREFRAME' : 'SOLID' }}</span></div>
           <ModelViewport ref="viewport" :initial-source="source" :wireframe="wireframe" @status="report" @busy="busy = $event" />
           <div class="day-17-stats"><span>頂點 <b>{{ String(stats.vertices).padStart(2, '0') }}</b></span><span>三角面 <b>{{ String(stats.triangles).padStart(2, '0') }}</b></span><span>網格 <b>{{ String(stats.meshes).padStart(2, '0') }}</b></span></div>
+        </section>
+        <section class="day-17-editor" aria-labelledby="day-17-input-label">
+          <div class="day-17-panel-heading"><label id="day-17-input-label" for="day-17-source">來源 / .gltf</label><span>{{ size }}</span></div>
+          <textarea id="day-17-source" v-model="source" spellcheck="false" aria-describedby="day-17-help" placeholder="在這裡貼上完整的 glTF 2.0 JSON…" @keydown.ctrl.enter.prevent="viewport?.load(source)" @keydown.meta.enter.prevent="viewport?.load(source)" />
+          <div class="day-17-editor-footer">JSON + EMBEDDED BUFFER <span>Ctrl / ⌘ + Enter 渲染</span></div>
         </section>
       </div>
       <div class="controls day-17-controls">
@@ -53,7 +53,7 @@ function sample() { source.value = createSample(); viewport.value?.load(source.v
         <summary>如何從 Blender 準備可貼上的資料？</summary>
         <ol>
           <li>選擇 File → Export → glTF 2.0，輸出包含內嵌資料的 .gltf（若版本提供，可選 glTF Embedded）。</li>
-          <li>用文字編輯器開啟 .gltf，複製全部 JSON，貼到左側，再按「渲染模型」。</li>
+          <li>用文字編輯器開啟 .gltf，複製全部 JSON，貼到右側，再按「渲染模型」。</li>
           <li>確認 buffers 的 uri 以 data: 開頭。若匯出的是 .gltf + .bin，必須先將 buffer 與圖片轉成內嵌 Base64；單靠 JSON 中的檔名無法還原頂點。</li>
         </ol>
         <p>支援未壓縮 glTF 2.0、節點變換、材質與內嵌貼圖；顯示靜態姿態，不播放動畫。資料上限 12 MB。外部檔案與 Draco／Meshopt／KTX2 壓縮不支援。</p>

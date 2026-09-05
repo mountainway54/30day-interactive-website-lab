@@ -86,7 +86,7 @@ async function load(text) {
     scene.add(model)
     applyWireframe()
     resetView()
-    emit('status', { message: '模型已渲染。拖曳旋轉、滾輪縮放；修改左側資料後，按「渲染模型」更新。', stats })
+    emit('status', { message: '模型已渲染。拖曳旋轉、滾輪縮放；修改右側資料後，按「渲染模型」更新。', stats })
   } catch (error) {
     if (candidate && candidate.scenes !== loadedScenes) disposeRoots(candidate.scenes)
     if (!disposed) emit('status', { error: true, message: `渲染失敗：${error.message || '請檢查 glTF 資料。'}${model ? '（保留上一個模型）' : ''}` })
