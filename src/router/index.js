@@ -7,7 +7,7 @@ const router = createRouter({
       path: '/day-17',
       name: 'day-17',
       component: () => import('@/days/day-17/Day17View.vue'),
-      meta: { day: 17, title: '貼上 glTF 頂點資料渲染模型' },
+      meta: { day: 17, title: '貼上 OBJ 頂點資料渲染模型' },
     },
     {
       path: '/',

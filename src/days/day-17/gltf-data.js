@@ -1,3 +1,5 @@
+import defaultModel from './default-model.gltf?raw'
+
 export function validateGltf(text) {
   if (!text.trim()) throw new Error('請先貼上完整的 .gltf JSON。')
   if (text.length > 12 * 1024 * 1024) throw new Error('資料超過 12 MB，請先簡化模型。')
@@ -19,21 +21,5 @@ export function validateGltf(text) {
 }
 
 export function createSample() {
-  const positions = new Float32Array([0, 1.4, 0, -1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, -1, 0, -1.4, 0])
-  const indices = new Uint16Array([0, 2, 1, 0, 3, 2, 0, 4, 3, 0, 1, 4, 5, 1, 2, 5, 2, 3, 5, 3, 4, 5, 4, 1])
-  const bytes = new Uint8Array(positions.byteLength + indices.byteLength)
-  bytes.set(new Uint8Array(positions.buffer))
-  bytes.set(new Uint8Array(indices.buffer), positions.byteLength)
-  return JSON.stringify({
-    asset: { version: '2.0', generator: 'Day 17 · Octahedron sample' },
-    scene: 0, scenes: [{ nodes: [0] }], nodes: [{ mesh: 0, name: '八面體' }],
-    meshes: [{ primitives: [{ attributes: { POSITION: 0 }, indices: 1, material: 0 }] }],
-    materials: [{ pbrMetallicRoughness: { baseColorFactor: [0.25, 0.36, 0.31, 1], metallicFactor: 0.15, roughnessFactor: 0.55 }, doubleSided: true }],
-    accessors: [
-      { bufferView: 0, componentType: 5126, count: 6, type: 'VEC3', min: [-1, -1.4, -1], max: [1, 1.4, 1] },
-      { bufferView: 1, componentType: 5123, count: 24, type: 'SCALAR' },
-    ],
-    bufferViews: [{ buffer: 0, byteOffset: 0, byteLength: positions.byteLength }, { buffer: 0, byteOffset: positions.byteLength, byteLength: indices.byteLength }],
-    buffers: [{ byteLength: bytes.length, uri: `data:application/octet-stream;base64,${btoa(String.fromCharCode(...bytes))}` }],
-  }, null, 2)
+  return defaultModel
 }

@@ -1,9 +1,9 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { validateGltf } from './gltf-data.js'
+import { prepareObj } from './obj-data.js'
 
 const props = defineProps({ initialSource: String, wireframe: Boolean })
 const emit = defineEmits(['status', 'busy'])
@@ -46,17 +46,16 @@ async function load(text) {
   emit('busy', true)
   let candidate
   try {
-    const data = validateGltf(text)
-    const manager = new THREE.LoadingManager()
-    manager.setURLModifier(url => {
-      if (!url.startsWith('data:') && !url.startsWith('blob:')) throw new Error('僅支援內嵌資料，無法讀取外部資源。')
-      return url
+    const data = prepareObj(text)
+    const root = new OBJLoader().parse(data.text)
+    candidate = { scenes: [root] }
+    root.traverse(object => {
+      if (!object.isMesh) return
+      const originals = Array.isArray(object.material) ? object.material : [object.material]
+      originals.forEach(material => material?.dispose())
+      object.material = new THREE.MeshStandardMaterial({ color: 0x899b8a, roughness: 0.75, metalness: 0, side: THREE.DoubleSide })
     })
-    candidate = await new GLTFLoader(manager).parseAsync(data, '')
-    if (disposed) { disposeRoots(candidate.scenes); return }
-    const root = candidate.scene
-    if (!root) throw new Error('找不到可渲染的場景。')
-    const stats = { vertices: 0, triangles: 0, meshes: 0 }
+    const stats = { vertices: data.vertices, triangles: 0, meshes: 0 }
     root.traverse(object => {
       if (!object.isMesh) return
       const position = object.geometry.getAttribute('position')
@@ -64,7 +63,6 @@ async function load(text) {
       for (let i = 0; i < position.count; i++) {
         if (![position.getX(i), position.getY(i), position.getZ(i)].every(Number.isFinite)) throw new Error('頂點包含無效座標。')
       }
-      stats.vertices += position.count
       stats.triangles += (object.geometry.index?.count ?? position.count) / 3
       stats.meshes++
       if (!object.geometry.getAttribute('normal')) object.geometry.computeVertexNormals()
@@ -89,7 +87,7 @@ async function load(text) {
     emit('status', { message: '模型已渲染。拖曳旋轉、滾輪縮放；修改右側資料後，按「渲染模型」更新。', stats })
   } catch (error) {
     if (candidate && candidate.scenes !== loadedScenes) disposeRoots(candidate.scenes)
-    if (!disposed) emit('status', { error: true, message: `渲染失敗：${error.message || '請檢查 glTF 資料。'}${model ? '（保留上一個模型）' : ''}` })
+    if (!disposed) emit('status', { error: true, message: `渲染失敗：${error.message || '請檢查 OBJ 資料。'}${model ? '（保留上一個模型）' : ''}` })
   } finally {
     loading = false
     if (!disposed) emit('busy', false)
