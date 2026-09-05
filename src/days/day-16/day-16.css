@@ -1,0 +1,238 @@
+.day-16-page {
+  --day-16-ivory: #f5f1e8;
+  --day-16-sand: #d6c4a8;
+  --day-16-teal: #6f9294;
+  --day-16-ochre: #b38a4a;
+  --day-16-coral: #c97958;
+  --day-16-panel-muted: #91a2b0;
+}
+
+.day-16-description {
+  max-width: 720px;
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.day-16-live-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font: 650 0.68rem/1.3 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.day-16-live-status span {
+  width: 8px;
+  height: 8px;
+  background: var(--day-16-coral);
+  box-shadow: 0 0 0 4px rgba(201, 121, 88, 0.18);
+}
+
+.day-16-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.85fr);
+  min-height: 580px;
+  border: 1px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink);
+}
+
+.day-16-stage {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  padding: 20px 24px 18px;
+  overflow: hidden;
+  border-right: 1px solid var(--ink);
+  background: var(--day-16-ivory);
+}
+
+.day-16-stage-header,
+.day-16-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font: 700 0.68rem/1 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.day-16-stage-header { color: var(--muted); }
+
+.day-16-stage-header strong {
+  padding: 6px 8px;
+  border: 1px solid var(--ink);
+  color: var(--signal);
+  background: var(--day-16-ivory);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+.day-16-canvas-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 450px;
+  isolation: isolate;
+}
+
+.day-16-canvas {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(100%, 520px);
+  aspect-ratio: 1;
+  touch-action: none;
+  cursor: grab;
+}
+
+.day-16-canvas:active { cursor: grabbing; }
+
+.day-16-canvas:focus-visible,
+.day-16-range:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.day-16-help {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(23, 33, 43, 0.26);
+  color: var(--muted);
+  font: 0.66rem/1.5 'Cascadia Code', Consolas, monospace;
+  text-align: center;
+}
+
+.day-16-panel {
+  min-width: 0;
+  color: #d9e2e8;
+  background: var(--ink);
+}
+
+.day-16-panel-header {
+  min-height: 48px;
+  padding: 0 16px;
+  border-bottom: 1px solid #52616f;
+  color: var(--day-16-panel-muted);
+}
+
+.day-16-panel-header span:last-child { color: #f0b95d; }
+
+.day-16-control-block {
+  padding: 18px;
+  border-bottom: 1px solid rgba(145, 162, 176, 0.28);
+}
+
+.day-16-control-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.day-16-control-label label {
+  color: var(--day-16-ivory);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.day-16-control-label output {
+  color: #f0b95d;
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.day-16-range {
+  width: 100%;
+  margin: 16px 0 8px;
+  accent-color: var(--signal);
+  cursor: pointer;
+}
+
+.day-16-range:disabled { cursor: not-allowed; opacity: 0.38; }
+
+.day-16-range-scale {
+  display: flex;
+  justify-content: space-between;
+  color: var(--day-16-panel-muted);
+  font: 0.58rem/1 'Cascadia Code', Consolas, monospace;
+}
+
+.day-16-values { margin: 0; }
+
+.day-16-values div {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 10px;
+  padding: 11px 18px;
+  border-bottom: 1px solid rgba(145, 162, 176, 0.18);
+  font: 0.64rem/1.4 'Cascadia Code', Consolas, monospace;
+}
+
+.day-16-values dt { color: var(--day-16-panel-muted); }
+.day-16-values dd { margin: 0; color: var(--day-16-ivory); overflow-wrap: anywhere; }
+
+.day-16-formula {
+  margin: 16px 18px 18px;
+  padding: 12px;
+  border: 1px solid #52616f;
+}
+
+.day-16-formula span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--day-16-coral);
+  font: 700 0.58rem/1 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.12em;
+}
+
+.day-16-formula code {
+  padding: 0;
+  color: var(--day-16-ivory);
+  background: transparent;
+  font-size: 0.66rem;
+}
+
+.day-16-error {
+  margin: 18px 0 0;
+  color: var(--signal);
+  font: 700 0.72rem/1.5 'Cascadia Code', Consolas, monospace;
+}
+
+.day-16-controls { justify-content: flex-end; margin-top: 28px; }
+
+@media (max-width: 900px) {
+  .day-16-workbench { grid-template-columns: minmax(0, 1fr) 280px; }
+  .day-16-stage { padding-inline: 18px; }
+}
+
+@media (max-width: 760px) {
+  .day-16-workbench {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    box-shadow: 7px 7px 0 var(--ink);
+  }
+
+  .day-16-stage { border-right: 0; border-bottom: 1px solid var(--ink); }
+  .day-16-canvas-wrap { min-height: 330px; }
+  .day-16-canvas { width: min(100%, 390px); }
+  .day-16-panel { display: grid; grid-template-columns: 1fr 1fr; }
+  .day-16-panel-header,
+  .day-16-values,
+  .day-16-formula { grid-column: 1 / -1; }
+  .day-16-control-block + .day-16-control-block { border-left: 1px solid rgba(145, 162, 176, 0.28); }
+  .day-16-controls { flex-direction: column; }
+  .day-16-controls button { width: 100%; }
+}
+
+@media (max-width: 520px) {
+  .day-16-stage-header { align-items: flex-start; flex-direction: column; }
+  .day-16-canvas-wrap { min-height: 280px; }
+  .day-16-panel { display: block; }
+  .day-16-control-block + .day-16-control-block { border-left: 0; }
+  .day-16-live-status { align-self: flex-start; }
+}

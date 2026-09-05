@@ -1,0 +1,29 @@
+.day-17-tag, .day-17-panel-heading, .day-17-editor-footer, .day-17-stats, .day-17-orbit-hint {
+  font: 600 0.72rem/1.6 "Cascadia Code", Consolas, monospace;
+}
+.day-17-tag { color: var(--muted); }
+.day-17-intro { margin: 0 0 24px; color: var(--muted); line-height: 1.7; }
+.day-17-workbench { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); border: 1px solid var(--ink); }
+.day-17-editor, .day-17-preview { min-width: 0; display: flex; flex-direction: column; }
+.day-17-editor { border-right: 1px solid var(--ink); }
+.day-17-panel-heading { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--ink); background: var(--surface); }
+.day-17-editor textarea { display: block; width: 100%; height: 398px; flex: 1; min-height: 300px; resize: vertical; border: 0; border-radius: 0; padding: 18px; color: #edf2f5; background: var(--ink); font: 12px/1.7 "Cascadia Code", Consolas, monospace; tab-size: 2; }
+.day-17-editor textarea:focus-visible, .day-17-canvas:focus-visible, .day-17-help summary:focus-visible { outline: 3px solid var(--signal); outline-offset: -3px; }
+.day-17-editor-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 12px 16px; color: #edf2f5; background: var(--ink); border-top: 1px solid #52616f; font-size: 0.65rem; }
+.day-17-canvas { position: relative; height: 398px; flex: 1; min-height: 300px; overflow: hidden; background: linear-gradient(#17212b10 1px, transparent 1px), linear-gradient(90deg, #17212b10 1px, transparent 1px), var(--surface); background-size: 24px 24px; }
+.day-17-canvas canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.day-17-orbit-hint { position: absolute; left: 16px; bottom: 12px; color: var(--muted); pointer-events: none; font-size: 0.65rem; }
+.day-17-stats { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 12px; padding: 12px; color: var(--surface); background: var(--ink); }
+.day-17-stats b { margin-left: 6px; font-weight: 700; }
+.day-17-controls { flex-wrap: wrap; }
+.day-17-status { min-height: 3.4em; margin: 18px 0; font-size: 0.85rem; line-height: 1.7; overflow-wrap: anywhere; }
+.day-17-status[data-error="true"] { color: #a92f24; }
+.day-17-help { border-top: 1px solid #17212b44; padding-top: 18px; color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+.day-17-help summary { color: var(--ink); cursor: pointer; font-weight: 700; }
+.day-17-help li + li { margin-top: 8px; }
+@media (max-width: 760px) {
+  .day-17-workbench { grid-template-columns: 1fr; }
+  .day-17-editor { border-right: 0; border-bottom: 1px solid var(--ink); }
+  .day-17-editor textarea { height: 260px; min-height: 260px; flex: none; }
+  .day-17-canvas { height: 340px; flex: none; }
+}

@@ -4,6 +4,12 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/day-17',
+      name: 'day-17',
+      component: () => import('@/days/day-17/Day17View.vue'),
+      meta: { day: 17, title: '貼上 glTF 頂點資料渲染模型' },
+    },
+    {
       path: '/',
       redirect: '/day-01',
     },
@@ -131,6 +137,15 @@ const router = createRouter({
       meta: {
         day: 15,
         title: 'WebGL 固定平行光與亮度控制',
+      },
+    },
+    {
+      path: '/day-16',
+      name: 'day-16',
+      component: () => import('@/days/day-16/Day16View.vue'),
+      meta: {
+        day: 16,
+        title: 'WebGL 球體鏡面反射',
       },
     },
   ],
