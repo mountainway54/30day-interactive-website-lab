@@ -1,0 +1,36 @@
+.day-20-description { color: var(--muted); line-height: 1.7; margin: 0 0 24px; }
+.day-20-badge, .day-20-stage-label, .day-20-help, .day-20-panel { font-family: "Cascadia Code", Consolas, monospace; }
+.day-20-badge { font-size: .7rem; white-space: nowrap; color: var(--muted); }
+.day-20-workbench { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, .8fr); border: 1px solid var(--ink); }
+.day-20-stage { min-width: 0; background: linear-gradient(rgba(23,33,43,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(23,33,43,.045) 1px, transparent 1px), var(--surface); background-size: 24px 24px; }
+.day-20-stage-label { padding: 18px; font-size: .68rem; letter-spacing: .06em; }
+.day-20-canvas { display: block; width: 100%; height: 360px; touch-action: none; cursor: grab; }
+.day-20-canvas:active { cursor: grabbing; }
+.day-20-help { padding: 0 18px; font-size: .7rem; line-height: 1.7; color: var(--muted); }
+.day-20-panel { padding: 24px; background: var(--ink); color: var(--surface); min-width: 0; }
+.day-20-panel-label { color: #bdcbd4; letter-spacing: .08em; font-size: .7rem; margin-bottom: 24px; }
+.day-20-panel label { display: flex; justify-content: space-between; gap: 12px; font-size: .8rem; }
+.day-20-panel output { color: #f5f1e8; }
+.day-20-panel input { display: block; width: 100%; min-height: 32px; margin: 8px 0 18px; accent-color: #c97958; cursor: pointer; }
+.day-20-panel input:disabled { opacity: .38; cursor: not-allowed; }
+.day-20-panel input:focus-visible, .day-20-canvas:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.day-20-range-hint { color: #bdcbd4; font-size: .68rem; margin: -12px 0 24px; }
+.day-20-readout { min-height: 56px; padding-top: 16px; border-top: 1px solid #52616f; font-size: .72rem; line-height: 1.7; }
+.day-20-snippet { display: block; margin-top: 16px; padding: 12px 0 0; color: #d6c4a8; background: transparent; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .68rem; line-height: 1.8; }
+.day-20-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+.day-20-table { width: 100%; border-collapse: collapse; text-align: left; font-size: .85rem; line-height: 1.7; }
+.day-20-table caption { text-align: left; color: var(--muted); padding-bottom: 12px; }
+.day-20-table th, .day-20-table td { padding: 16px 12px; border-bottom: 1px solid #a2aeb6; vertical-align: top; }
+.day-20-table thead { background: var(--ink); color: var(--surface); }
+.day-20-table tbody th { min-width: 110px; }
+.day-20-table code { overflow-wrap: anywhere; }
+.day-20-originals { display: flex; flex-wrap: wrap; gap: 24px; }
+.day-20-page a { color: inherit; text-underline-offset: 4px; }
+.day-20-originals a { min-height: 48px; display: inline-flex; align-items: center; font-weight: 700; }
+.day-20-error { color: var(--signal); line-height: 1.7; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .day-20-workbench { grid-template-columns: minmax(0, 1fr); }
+  .day-20-canvas { height: 300px; }
+  .day-20-panel { padding: 20px; }
+  .day-20-table { min-width: 570px; }
+}
