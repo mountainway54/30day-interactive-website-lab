@@ -7,7 +7,7 @@ const router = createRouter({
       path: '/day-20',
       name: 'day-20',
       component: () => import('@/days/day-20/Day20View.vue'),
-      meta: { day: 20, title: 'Three.js 球體鏡面高光' },
+      meta: { day: 20, title: 'Three.js 材質設定與高光' },
     },
     {
       path: '/day-19',

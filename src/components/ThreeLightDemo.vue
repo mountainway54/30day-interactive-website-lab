@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 
 const props = defineProps({ kind: { type: String, required: true } })
 const isCube = props.kind === 'cube'
@@ -11,9 +12,33 @@ const canvas = ref(null)
 const ready = ref(false)
 const status = ref('準備場景')
 const error = ref('')
-const initial = { ambientIntensity: 0.55, directionalIntensity: 0.45, shininess: 32, strength: 72, specular: true, pitch: -23, yaw: 34 }
+const presets = {
+  metal: { label: '金屬', metalness: 1, roughness: 0.2 },
+  plastic: { label: '塑膠', metalness: 0, roughness: 0.15 },
+}
+const initial = { ambientIntensity: 0.55, directionalIntensity: 0.45, preset: 'plastic', roughness: 0.15, pitch: -23, yaw: 34 }
 const values = reactive({ ...initial })
 let renderer, scene, camera, orbit, mesh, ambient, light, observer
+let environmentTarget
+
+function selectMaterial() {
+  if (!Object.hasOwn(presets, values.preset)) values.preset = initial.preset
+  values.roughness = presets[values.preset].roughness
+  update()
+}
+
+function createEnvironment() {
+  environmentTarget?.dispose()
+  const room = new RoomEnvironment()
+  const generator = new THREE.PMREMGenerator(renderer)
+  try {
+    environmentTarget = generator.fromScene(room, 0.04)
+    scene.environment = environmentTarget.texture
+  } finally {
+    room.dispose()
+    generator.dispose()
+  }
+}
 
 function draw() {
   if (ready.value) renderer.render(scene, camera)
@@ -31,7 +56,7 @@ function resize() {
 }
 
 function update() {
-  for (const [key, min, max] of [['ambientIntensity', 0, 2], ['directionalIntensity', 0, 2], ['shininess', 2, 128], ['strength', 0, 100], ['pitch', -180, 180], ['yaw', -180, 180]]) {
+  for (const [key, min, max] of [['ambientIntensity', 0, 2], ['directionalIntensity', 0, 2], ['roughness', 0, 1], ['pitch', -180, 180], ['yaw', -180, 180]]) {
     values[key] = THREE.MathUtils.clamp(Number(values[key]) || 0, min, max)
   }
   if (!ready.value) return
@@ -40,11 +65,10 @@ function update() {
     light.intensity = values.directionalIntensity
     mesh.rotation.set(THREE.MathUtils.degToRad(values.pitch), THREE.MathUtils.degToRad(values.yaw), 0, 'YXZ')
   } else {
-    mesh.material.shininess = values.shininess
-    // MeshPhongMaterial 沒有 specularStrength；以 specular 顏色乘上強度。
-    mesh.material.specular.setRGB(1, 0.94, 0.82).multiplyScalar(values.specular ? values.strength / 100 : 0)
+    mesh.material.metalness = presets[values.preset].metalness
+    mesh.material.roughness = values.roughness
   }
-  status.value = isCube ? `環境光 ${values.ambientIntensity.toFixed(2)} · 平行光 ${values.directionalIntensity.toFixed(2)}` : `高光${values.specular ? '開啟' : '關閉'} · 集中度 ${values.shininess}`
+  status.value = isCube ? `環境光 ${values.ambientIntensity.toFixed(2)} · 平行光 ${values.directionalIntensity.toFixed(2)}` : `${presets[values.preset].label}${values.roughness !== presets[values.preset].roughness ? '（已調整）' : ''} · 粗糙度 ${values.roughness.toFixed(2)}`
   draw()
 }
 
@@ -74,6 +98,7 @@ function contextRestored() {
     ready.value = true
     orbit.enabled = true
     error.value = ''
+    if (!isCube) createEnvironment()
     update()
     resize()
   })
@@ -89,6 +114,8 @@ function release() {
     const materials = Array.isArray(object.material) ? object.material : [object.material]
     materials.forEach(material => material?.dispose())
   })
+  environmentTarget?.dispose()
+  environmentTarget = null
   renderer?.dispose()
   renderer = null
   ready.value = false
@@ -104,7 +131,7 @@ onMounted(() => {
     const geometry = isCube ? new THREE.BoxGeometry(2, 2, 2) : new THREE.SphereGeometry(1, 48, 40)
     const material = isCube
       ? new THREE.MeshLambertMaterial({ vertexColors: true })
-      : new THREE.MeshPhongMaterial({ color: '#6f9294', shininess: 32 })
+      : new THREE.MeshStandardMaterial({ color: '#6f9294', metalness: 0, roughness: 0.15 })
     mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
     if (isCube) {
@@ -117,8 +144,9 @@ onMounted(() => {
       }
       geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     } else {
+      createEnvironment()
       const grid = new THREE.GridHelper(8, 20, '#6f9294', '#b1babd')
-      grid.position.y = -1
+      grid.position.y = 0
       scene.add(grid)
     }
     ambient = new THREE.AmbientLight(0xffffff, isCube ? 0.55 : 0.26)
@@ -154,12 +182,12 @@ onBeforeUnmount(release)
   <section class="experiment" :aria-labelledby="`${id}-title`">
     <header class="section-heading">
       <div>
-        <p>THREE.JS / {{ isCube ? 'DAY 15 REWRITE' : 'DAY 16 REWRITE' }}</p>
-        <h2 :id="`${id}-title`">{{ isCube ? '立方體的平行光，交給' : '球面的鏡面高光，交給' }} <span class="heading-english">{{ isCube ? 'Lambert' : 'Phong' }}</span></h2>
+        <p>THREE.JS / {{ isCube ? 'DAY 15 REWRITE' : 'MATERIAL & ROUGHNESS' }}</p>
+        <h2 :id="`${id}-title`">{{ isCube ? '立方體的平行光，交給' : '材質設定與高光，使用' }} <span class="heading-english">{{ isCube ? 'Lambert' : 'MeshStandardMaterial' }}</span></h2>
       </div>
       <span :class="`${prefix}-badge`">{{ isCube ? '01 / DIFFUSE' : '01 / SPECULAR' }}</span>
     </header>
-    <p :class="`${prefix}-description`">{{ isCube ? '轉動模型，觀察各面的明暗；拖曳改變觀察角度，光源始終固定在世界座標。' : '拖曳繞著球體觀察，看看高光如何隨視線移動。調整集中度與強度，或關閉鏡面反射比較差異。' }}</p>
+    <p :class="`${prefix}-description`">{{ isCube ? '轉動模型，觀察各面的明暗；拖曳改變觀察角度，光源始終固定在世界座標。' : '切換金屬與塑膠，再調整粗糙度觀察光滑與霧面效果。兩種預設使用相同顏色與照明；拖曳球體可改變觀看角度。' }}</p>
     <div :class="`${prefix}-workbench`">
       <div :class="`${prefix}-stage`">
         <div :class="`${prefix}-stage-label`">{{ isCube ? 'BOX GEOMETRY / VERTEX COLORS' : 'SPHERE GEOMETRY / XZ GRID' }}</div>
@@ -179,19 +207,21 @@ onBeforeUnmount(release)
           <input :id="`${id}-yaw`" v-model.number="values.yaw" type="range" min="-180" max="180" :disabled="!ready" @input="update" />
         </template>
         <template v-else>
-          <label :for="`${id}-shininess`">高光集中度 <output>{{ values.shininess }}</output></label>
-          <input :id="`${id}-shininess`" v-model.number="values.shininess" type="range" min="2" max="128" :disabled="!ready || !values.specular" @input="update" />
-          <p :class="`${prefix}-range-hint`">2 寬廣 ← → 128 集中</p>
-          <label :for="`${id}-strength`">高光強度 <output>{{ values.strength }}%</output></label>
-          <input :id="`${id}-strength`" v-model.number="values.strength" type="range" min="0" max="100" :disabled="!ready || !values.specular" @input="update" />
+          <label :for="`${id}-material`">材質預設</label>
+          <select :id="`${id}-material`" v-model="values.preset" :disabled="!ready" @change="selectMaterial">
+            <option v-for="(preset, key) in presets" :key="key" :value="key">{{ preset.label }}</option>
+          </select>
+          <label :for="`${id}-roughness`">粗糙度 <output>{{ values.roughness.toFixed(2) }}</output></label>
+          <input :id="`${id}-roughness`" v-model.number="values.roughness" type="range" min="0" max="1" step="0.01" :disabled="!ready" @input="update" />
+          <p :class="`${prefix}-range-hint`">0 光滑 ← → 1 粗糙</p>
+          <p :class="`${prefix}-material-info`">金屬度：{{ presets[values.preset].metalness.toFixed(2) }}<br />切換預設會恢復該材質的粗糙度。</p>
         </template>
         <div :class="`${prefix}-readout`" aria-live="polite">{{ status }}</div>
-        <code :class="`${prefix}-snippet`">{{ isCube ? 'mesh.rotation.set(x, y, 0)\nambient.intensity = ambientIntensity\nlight.intensity = directionalIntensity\nrenderer.render(scene, camera)' : 'material.shininess = shininess\nmaterial.specular\n  .setRGB(1, 0.94, 0.82)\n  .multiplyScalar(strength)' }}</code>
+        <code :class="`${prefix}-snippet`">{{ isCube ? 'mesh.rotation.set(x, y, 0)\nambient.intensity = ambientIntensity\nlight.intensity = directionalIntensity\nrenderer.render(scene, camera)' : `material.metalness = ${presets[values.preset].metalness}\nmaterial.roughness = ${values.roughness.toFixed(2)}\nrenderer.render(scene, camera)` }}</code>
       </aside>
     </div>
     <p v-if="error" :class="`${prefix}-error`" role="alert">{{ error }}</p>
     <div class="controls">
-      <button v-if="!isCube" type="button" class="primary-action" :disabled="!ready" :aria-pressed="values.specular" @click="values.specular = !values.specular; update()">{{ values.specular ? '關閉鏡面反射' : '開啟鏡面反射' }}</button>
       <button type="button" class="secondary-action" :disabled="!ready" @click="reset">重設參數與視角</button>
     </div>
   </section>
