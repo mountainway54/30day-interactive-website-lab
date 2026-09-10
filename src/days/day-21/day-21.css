@@ -1,0 +1,33 @@
+.day-21-description, .day-21-notes > p { color: var(--muted); line-height: 1.7; margin: 0 0 24px; }
+.day-21-workbench { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(250px, .8fr); border: 1px solid var(--ink); }
+.day-21-stage { min-width: 0; background: linear-gradient(#17212b0c 1px, transparent 1px), linear-gradient(90deg, #17212b0c 1px, transparent 1px), var(--surface); background-size: 24px 24px; }
+.day-21-label, .day-21-caption { margin: 0; padding: 18px; font: .7rem/1.7 'Cascadia Code', Consolas, monospace; color: var(--muted); }
+.day-21-canvas { display: block; width: 100%; height: 410px; }
+.day-21-panel { padding: 24px; min-width: 0; background: var(--ink); color: var(--surface); font: .75rem/1.7 'Cascadia Code', Consolas, monospace; }
+.day-21-panel label { display: flex; justify-content: space-between; gap: 12px; }
+.day-21-panel input { display: block; width: 100%; min-height: 32px; margin: 8px 0 18px; accent-color: #c97958; }
+.day-21-panel input:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.day-21-panel input:disabled { opacity: .38; }
+.day-21-hint { margin: -12px 0 24px; color: #bdcbd4; font-size: .68rem; }
+.day-21-map { margin: 24px 0 16px; }
+.day-21-map canvas { display: block; width: 100%; height: auto; border: 1px solid #52616f; }
+.day-21-map figcaption { font-size: .68rem; color: #bdcbd4; margin-top: 8px; }
+.day-21-readout { border-top: 1px solid #52616f; padding-top: 16px; margin: 0; min-height: 58px; }
+.day-21-notes .section-heading:not(:first-child) { margin-top: 40px; }
+.day-21-notes pre { padding: 20px 22px; overflow-x: auto; border: 1px solid var(--ink); background: var(--ink); color: #d9e2e8; font: 600 .78rem/1.75 'Cascadia Code', Consolas, monospace; }
+.day-21-notes pre:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.day-21-notes code { color: inherit; background: transparent; padding: 0; font: inherit; }
+.day-21-code-comment { color: #91a2b0; font-weight: 400; }
+.day-21-code-keyword, .day-21-code-literal { color: #e66b5e; font-weight: 700; }
+.day-21-code-function { color: #d9e2e8; text-decoration: underline; text-decoration-color: #91a2b0; text-underline-offset: 3px; }
+.day-21-notes a { display: inline-flex; align-items: center; min-height: 48px; color: inherit; text-underline-offset: 4px; }
+.day-21-error { padding: 18px; color: var(--signal); line-height: 1.7; }
+@media (max-width: 760px) {
+  .day-21-workbench { grid-template-columns: minmax(0, 1fr); }
+  .day-21-panel { padding: 20px; }
+  .day-21-canvas { height: 290px; }
+}
+
+.day-21-canvas { touch-action: none; cursor: grab; }
+.day-21-canvas:active { cursor: grabbing; }
+.day-21-canvas:focus-visible { outline: 3px solid var(--signal); outline-offset: -3px; }
