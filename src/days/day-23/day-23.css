@@ -9,6 +9,10 @@
 .day-23-stage { min-width: 0; background: linear-gradient(#17212b0c 1px, transparent 1px), linear-gradient(90deg, #17212b0c 1px, transparent 1px), var(--surface); background-size: 24px 24px; }
 .day-23-canvas { display: block; width: 100%; height: 460px; touch-action: none; cursor: grab; }
 .day-23-canvas:active { cursor: grabbing; }
+.day-23-preview { position: relative; }
+.day-23-canvas-hidden { visibility: hidden; }
+.day-23-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; color: var(--muted); font: .8rem/1.7 'Cascadia Code', Consolas, monospace; }
+.day-23-loading strong { color: var(--signal); letter-spacing: .12em; }
 .day-23-caption { margin: 0; padding: 16px 18px; color: var(--muted); font: .7rem/1.7 'Cascadia Code', Consolas, monospace; }
 .day-23-panel { min-width: 0; padding: 24px; background: var(--ink); color: var(--surface); font: .75rem/1.7 'Cascadia Code', Consolas, monospace; }
 .day-23-control label { display: flex; justify-content: space-between; gap: 12px; }

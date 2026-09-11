@@ -1,4 +1,4 @@
-const files = import.meta.glob(['../../../docs/textures/*/*_diff_1k.jpg', '../../../docs/textures/*/*_nor_gl_1k.exr', '../../../docs/textures/*/*_arm_1k.jpg'], { eager: true, query: '?url', import: 'default' })
+const files = import.meta.glob(['../../../docs/textures/*/*_diff_1k.webp', '../../../docs/textures/*/*_nor_gl_1k.exr', '../../../docs/textures/*/*_arm_1k.webp'], { eager: true, query: '?url', import: 'default' })
 export const presets = [
   { id: 'rusty_metal_04', label: '鏽蝕金屬', metalness: 1 },
   { id: 'rocky_terrain_02', label: '岩石地表', metalness: 0 },
@@ -9,5 +9,5 @@ export const presets = [
     if (!files[path]) throw new Error(`缺少貼圖：${path}`)
     return files[path]
   }
-  return { ...preset, color: url('diff_1k.jpg'), normal: url('nor_gl_1k.exr'), arm: url('arm_1k.jpg'), source: `https://polyhaven.com/a/${preset.id}` }
+  return { ...preset, color: url('diff_1k.webp'), normal: url('nor_gl_1k.exr'), arm: url('arm_1k.webp'), source: `https://polyhaven.com/a/${preset.id}` }
 })

@@ -3,9 +3,9 @@ import { onMounted, onBeforeUnmount, reactive, ref, watch } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import LabNav from '@/components/LabNav.vue'
-import normalUrl from '../../../docs/images/day22-wood-uv.png'
-import colorUrl from '../../../docs/images/day22-wood-color.png'
-import heightUrl from '../../../docs/images/day22-wood-height.png'
+import normalUrl from '../../../docs/images/day22-wood-uv.webp'
+import colorUrl from '../../../docs/images/day22-wood-color.webp'
+import heightUrl from '../../../docs/images/day22-wood-height.webp'
 import './day-22.css'
 
 const canvas = ref(null), ready = ref(false), error = ref('')

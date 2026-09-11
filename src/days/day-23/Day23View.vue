@@ -25,6 +25,9 @@ const ready = ref(false),
   error = ref(""),
   fatal = ref(false);
 const current = computed(() => presets.find((p) => p.id === selected.value));
+const loading = computed(
+  () => !fatal.value && !error.value && (!ready.value || busy.value || !active.value),
+);
 const activeLabel = computed(
   () => presets.find((p) => p.id === active.value)?.label ?? "尚未套用",
 );
@@ -49,6 +52,8 @@ let renderer,
 const cache = new Map(),
   resources = new Set();
 function draw() {
+  // 載入期間隱藏模型，避免先顯示沒有貼圖的替代材質。
+  if (model) model.visible = Boolean(active.value) && !busy.value;
   if (!disposed && renderer && !fatal.value) renderer.render(scene, camera);
 }
 function update() {
@@ -123,6 +128,7 @@ async function choose(preset) {
   const token = ++request;
   busy.value = true;
   error.value = "";
+  draw();
   try {
     const loaded = await loadMaps(preset);
     if (disposed || token !== request || fatal.value) return;
@@ -149,9 +155,14 @@ async function choose(preset) {
     update();
   } catch {
     if (!disposed && token === request)
-      error.value = "材質載入失敗，保留目前模型。請按下方「重試載入」。";
+      error.value = active.value
+        ? "材質載入失敗，保留目前模型。請按下方「重試載入」。"
+        : "材質載入失敗。請按下方「重試載入」。";
   } finally {
-    if (!disposed && token === request) busy.value = false;
+    if (!disposed && token === request) {
+      busy.value = false;
+      draw();
+    }
   }
 }
 function reset() {
@@ -198,6 +209,7 @@ onMounted(() => {
       side: THREE.DoubleSide,
     });
     model = createMergedModel(modelSource, material);
+    model.visible = false;
     scene.add(model);
     orbit = new OrbitControls(camera, canvas.value);
     orbit.minDistance = 2;
@@ -270,14 +282,25 @@ onBeforeUnmount(() => {
       <div class="day-23-workbench">
         <div class="day-23-stage">
           <p class="day-23-caption">SNORLAX / {{ activeLabel }} · 01 網格</p>
+          <div class="day-23-preview" :aria-busy="loading">
           <canvas
             ref="canvas"
-            tabindex="0"
+            :tabindex="loading || !active || fatal ? -1 : 0"
+            :class="{ 'day-23-canvas-hidden': loading || !active || fatal }"
+            :aria-hidden="loading || !active || fatal"
             class="day-23-canvas"
             role="img"
             aria-label="可旋轉縮放的卡比獸材質預覽"
             aria-describedby="day-23-help"
           />
+          <div v-if="loading" class="day-23-loading" role="status">
+            <strong>LOADING…</strong>
+            <span>正在載入{{ current.label }}材質</span>
+          </div>
+          <div v-else-if="error && (!active || fatal)" class="day-23-loading" role="alert">
+            <span>{{ error }}</span>
+          </div>
+          </div>
           <p id="day-23-help" class="day-23-caption">
             拖曳旋轉 · 滾輪縮放 · 右鍵／方向鍵平移<br />觸控：單指旋轉，雙指平移與縮放。
           </p>
