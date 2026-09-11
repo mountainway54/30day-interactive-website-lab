@@ -1,0 +1,35 @@
+.day-22-description, .day-22-note { color: var(--muted); line-height: 1.7; margin: 0 0 24px; }
+.day-22-workbench { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(250px, .8fr); border: 1px solid var(--ink); }
+.day-22-stage { min-width: 0; background: linear-gradient(#17212b0c 1px, transparent 1px), linear-gradient(90deg, #17212b0c 1px, transparent 1px), var(--surface); background-size: 24px 24px; }
+.day-22-label, .day-22-caption { margin: 0; padding: 16px 18px; font: .7rem/1.7 'Cascadia Code', Consolas, monospace; color: var(--muted); }
+.day-22-caption + .day-22-caption { padding-top: 0; }
+.day-22-canvas { display: block; width: 100%; height: 410px; touch-action: none; cursor: grab; }
+.day-22-canvas:active { cursor: grabbing; }
+.day-22-canvas:focus-visible { outline: 3px solid var(--signal); outline-offset: -3px; }
+.day-22-panel { padding: 24px; min-width: 0; background: var(--ink); color: var(--surface); font: .75rem/1.7 'Cascadia Code', Consolas, monospace; }
+.day-22-control label { display: flex; justify-content: space-between; gap: 12px; }
+.day-22-control input { display: block; width: 100%; min-height: 32px; margin: 6px 0 14px; accent-color: #c97958; }
+.day-22-control input:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.day-22-control input:disabled { opacity: .38; }
+.day-22-readout { border-top: 1px solid var(--muted); padding-top: 16px; margin: 0; min-height: 60px; }
+.day-22-error { padding: 18px; color: var(--signal); line-height: 1.7; }
+.day-22-maps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0 24px; }
+.day-22-maps figure { margin: 0; min-width: 0; display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: center; }
+.day-22-maps a { display: block; }
+.day-22-maps img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--ink); }
+.day-22-maps figcaption { font-size: .78rem; line-height: 1.7; color: var(--muted); }
+.day-22-maps strong, .day-22-maps span { display: block; font: .7rem/1.7 'Cascadia Code', Consolas, monospace; }
+.day-22-maps strong { color: var(--ink); font-weight: 700; }
+.day-22-note { margin: 0; font-size: .85rem; }
+.day-22-actions { flex-wrap: wrap; }
+.day-22-actions button { flex: 1 0 160px; }
+.day-22-mode-help { margin-top: 16px; }
+.day-22-height-help { margin-bottom: 16px; }
+@media (max-width: 760px) {
+  .day-22-workbench { grid-template-columns: minmax(0, 1fr); }
+  .day-22-panel { padding: 20px; }
+  .day-22-actions button { flex: auto; }
+  .day-22-canvas { height: 290px; }
+  .day-22-maps { grid-template-columns: 1fr; }
+  .day-22-maps figure { grid-template-columns: 88px 1fr; }
+}
