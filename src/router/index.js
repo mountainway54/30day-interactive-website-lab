@@ -4,6 +4,12 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/day-23',
+      name: 'day-23',
+      component: () => import('@/days/day-23/Day23View.vue'),
+      meta: { day: 23, title: 'Poly Haven 開放授權材質庫' },
+    },
+    {
       path: '/day-22',
       name: 'day-22',
       component: () => import('@/days/day-22/Day22View.vue'),

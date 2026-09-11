@@ -172,10 +172,10 @@ onBeforeUnmount(() => {
         </aside>
       </div>
       <div class="controls day-22-actions">
-        <button class="primary-action" :disabled="!ready" :aria-pressed="colorEnabled" @click="colorEnabled = !colorEnabled">木紋顏色：{{ colorEnabled ? '開啟' : '關閉' }}</button>
-        <button class="primary-action" :disabled="!ready" :aria-pressed="normalEnabled" @click="toggleNormal">法線起伏：{{ normalEnabled ? '開啟' : '關閉' }}</button>
-        <button class="primary-action" :disabled="!ready" :aria-pressed="bumpEnabled" @click="toggleBump">凹凸起伏：{{ bumpEnabled ? '開啟' : '關閉' }}</button>
-        <button class="primary-action" :disabled="!ready" :aria-pressed="displacementEnabled" @click="displacementEnabled = !displacementEnabled">實際位移：{{ displacementEnabled ? '開啟' : '關閉' }}</button>
+        <button :class="colorEnabled ? 'primary-action' : 'secondary-action'" :disabled="!ready" :aria-pressed="colorEnabled" @click="colorEnabled = !colorEnabled">木紋顏色：{{ colorEnabled ? '開啟' : '關閉' }}</button>
+        <button :class="normalEnabled ? 'primary-action' : 'secondary-action'" :disabled="!ready" :aria-pressed="normalEnabled" @click="toggleNormal">法線起伏：{{ normalEnabled ? '開啟' : '關閉' }}</button>
+        <button :class="bumpEnabled ? 'primary-action' : 'secondary-action'" :disabled="!ready" :aria-pressed="bumpEnabled" @click="toggleBump">凹凸起伏：{{ bumpEnabled ? '開啟' : '關閉' }}</button>
+        <button :class="displacementEnabled ? 'primary-action' : 'secondary-action'" :disabled="!ready" :aria-pressed="displacementEnabled" @click="displacementEnabled = !displacementEnabled">實際位移：{{ displacementEnabled ? '開啟' : '關閉' }}</button>
         <button class="secondary-action" :disabled="!ready" @click="reset">重設參數與視角</button>
       </div>
       <p class="day-22-note day-22-mode-help">法線與凹凸擇一啟用；切換會關閉另一種，避免 normalMap 優先而讓 bumpMap 看不出變化。位移可搭配任一表面效果，或單獨開啟。</p>
