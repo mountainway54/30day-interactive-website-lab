@@ -56,9 +56,7 @@ const cfg = body.get_m_cfg();
 const material = body.get_m_materials().at(0);
 
 material.set_m_kLST(0.55); // 表面連結的線性剛性
-
 cfg.set_kDP(0.003); // 阻尼
-
 cfg.set_kPR(180); // 內部壓力
 ```
 
@@ -111,7 +109,7 @@ world.setGravity(gravity);
 world.getWorldInfo().set_m_gravity(gravity);
 ```
 
-這個世界負責管理碰撞與物理更新。重力設定為沿著 Y 軸向下，球體加入後就會受到重力影響。地面則使用質量為 `0` 的剛體，讓它固定在原位。畫面中的地平面網格只是視覺參考，真正擋住球體的是 Ammo.js 裡的碰撞形狀。
+這個世界負責管理碰撞與物理更新。重力設定為沿著 Y 軸向下，球體加入後就會受到重力影響。地面則使用質量為 `0` 的剛體，讓它固定在原位。畫面中的地平面網格只是視覺參考，真正擋住球體的是 Ammo.js 裡的碰撞形狀。至於建立地面剛體的程式碼範例，我補充在 [demo](https://mountainway54.github.io/30day-interactive-website-lab/#/day-24) 下方。
 
 接著，準備球體的三角網格~ 前幾天使用 SphereGeometry 建立球體，這次則改用三角形分布較均勻的 IcosahedronGeometry，讓物理節點分布更均勻，有助於呈現較一致的受力形變。：
 

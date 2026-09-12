@@ -7,6 +7,19 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import LabNav from "@/components/LabNav.vue";
 import { createSoftWorld } from "./softWorld";
 import "./day-24.css";
+import groundSource from "./groundExample.js?raw";
+
+// 沿用 Day 21 的文字分段上色，透過插值保留原始碼，不解析 HTML。
+const groundTokens = [];
+const syntax = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|('(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")|\b(const|let|new|export|function|return|for)\b|(\b\d+(?:\.\d+)?\b|\.\d+\b)|\b([A-Za-z_$][\w$]*)(?=\s*\()/g;
+let sourceOffset = 0;
+for (const match of groundSource.matchAll(syntax)) {
+  if (match.index > sourceOffset) groundTokens.push({ text: groundSource.slice(sourceOffset, match.index) });
+  const kind = match[1] ? "comment" : match[2] ? "literal" : match[3] ? "keyword" : match[4] ? "literal" : "function";
+  groundTokens.push({ text: match[0], kind });
+  sourceOffset = match.index + match[0].length;
+}
+groundTokens.push({ text: groundSource.slice(sourceOffset) });
 
 const canvas = ref(null),
   ready = ref(false),
@@ -325,6 +338,18 @@ onBeforeUnmount(() => {
           {{ wire ? "隱藏線框" : "顯示線框" }}
         </button>
       </div>
+      <section class="day-24-ground-note" aria-labelledby="day-24-ground-title">
+        <header class="section-heading">
+          <div>
+            <p>AMMO.JS / GROUND COLLISION</p>
+            <h2 id="day-24-ground-title">真正擋住球體的地面在哪裡？</h2>
+          </div>
+        </header>
+        <p>畫面中的地平面網格由 Three.js 的 <code>GridHelper</code> 繪製，只是視覺參考。真正擋住球體的是 Ammo.js 裡的 <code>btBoxShape</code>，它是一個固定不動的箱形碰撞體。</p>
+        <p>箱體厚度為 0.5，中心設在 <code>y = -0.25</code>，因此頂面剛好位於 <code>y = 0</code>。透過 <code>world.addRigidBody(ground)</code> 加入物理世界後，才能參與碰撞。</p>
+        <pre class="day-24-code" tabindex="0" role="region" aria-label="建立地面碰撞體的 JavaScript 程式碼"><code><span v-for="(token, index) in groundTokens" :key="index" :class="token.kind ? `day-24-code-${token.kind}` : undefined">{{ token.text }}</span></code></pre>
+        <p class="day-24-ground-footnote">Demo 會追蹤這些自行建立的 Ammo.js 物件，並在離開頁面時移除剛體、依序釋放資源。</p>
+      </section>
     </section>
   </main>
 </template>

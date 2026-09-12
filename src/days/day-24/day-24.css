@@ -17,4 +17,13 @@
 .day-24-panel > p:not(.day-24-panel-label) { color: #c2c7cb; font-size: .78rem; line-height: 1.8; }
 .day-24-engine { display: block; margin-top: 24px; font-size: .68rem; line-height: 1.8; color: #c2c7cb; }
 .day-24-page .controls { flex-wrap: wrap; }
+.day-24-ground-note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--ink); min-width: 0; }
+.day-24-ground-note > p { color: var(--muted); line-height: 1.7; overflow-wrap: anywhere; }
+.day-24-code { max-width: 100%; overflow-x: auto; padding: 20px 22px; border: 1px solid var(--ink); background: var(--ink); color: #d9e2e8; font: 600 .78rem/1.75 'Cascadia Code', Consolas, monospace; tab-size: 2; }
+.day-24-code-comment { color: #91a2b0; font-weight: 400; }
+.day-24-code-keyword, .day-24-code-literal { color: #e66b5e; font-weight: 700; }
+.day-24-code-function { color: #d9e2e8; text-decoration: underline; text-decoration-color: #91a2b0; text-underline-offset: 3px; }
+.day-24-code code { padding: 0; color: inherit; background: transparent; font: inherit; }
+.day-24-code:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.day-24-ground-footnote { font-size: .8rem; }
 @media (max-width: 760px) { .day-24-layout { grid-template-columns: 1fr; } .day-24-canvas { height: 440px; } .day-24-panel { padding: 20px; } }
