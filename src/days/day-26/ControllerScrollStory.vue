@@ -1,0 +1,333 @@
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import * as THREE from 'three'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
+import { gsap } from 'gsap'
+import Lenis from 'lenis'
+
+const root = ref(null)
+const viewport = ref(null)
+const ready = ref(false)
+const error = ref('')
+const loading = ref('正在載入控制器模型')
+const loadProgress = ref(0)
+const scrollProgress = ref(0)
+const activeIndex = ref(0)
+
+const chapters = [
+  {
+    label: '',
+    title: '控制器正面',
+    quiet: true,
+  },
+  {
+    label: 'TOUCH / 01',
+    title: '觸碰板',
+    subtitle: '滑動／點按輸入',
+    body: '多點觸控介面',
+    leader: {
+      desktop: { path: 'M 50 31 L 60 41 Q 61 42 63 42 H 72', x: 50, y: 31 },
+      mobile: { path: 'M 50 32 L 7 75 Q 6 76 8 76 H 12', x: 50, y: 32 },
+    },
+  },
+  {
+    label: 'CONTROL / 02',
+    title: '類比操作桿',
+    subtitle: '移動／瞄準／方向',
+    body: '高精度類比輸入',
+    leader: {
+      desktop: { path: 'M 49 52 L 39 62 Q 38 63 36 63 H 28', x: 49, y: 52 },
+      mobile: { path: 'M 52 45 L 22 75 Q 21 76 19 76 H 12', x: 52, y: 45 },
+    },
+  },
+  {
+    label: 'TENSION / 03',
+    title: '自適應扳機',
+    subtitle: 'L2／R2 動態阻力',
+    body: '依情境改變力量與張力',
+    leader: {
+      desktop: { path: 'M 67 28 L 57 38 Q 56 39 54 39 H 28', x: 67, y: 28 },
+      mobile: { path: 'M 66 35 L 26 75 Q 25 76 23 76 H 12', x: 66, y: 35 },
+    },
+  },
+  {
+    label: '',
+    title: '控制器正面',
+    quiet: true,
+  },
+]
+
+const poses = [
+  { x: 0, y: 3.1, z: 5.9, tx: 0, ty: 0, tz: 0 },
+  { x: 0, y: 4, z: 1, tx: 0, ty: 0, tz: 0 },
+  { x: 4, y: 1, z: 1, tx: 0.55, ty: -0.1, tz: 0 },
+  { x: 5, y: 5, z: -2, tx: 0, ty: 0, tz: 0 },
+  { x: 0, y: 3.1, z: 5.9, tx: 0, ty: 0, tz: 0 },
+]
+
+const currentLabel = computed(() => chapters[activeIndex.value]?.label ?? chapters[0].label)
+const abortController = new AbortController()
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+const pose = { ...poses[0] }
+
+let renderer
+let scene
+let camera
+let model
+let environment
+let resizeObserver
+let cameraTimeline
+let lenis
+let disposed = false
+
+function disposeModel(target) {
+  const materials = new Set()
+  target?.traverse((object) => {
+    object.geometry?.dispose()
+    const list = Array.isArray(object.material) ? object.material : [object.material]
+    list.filter(Boolean).forEach((material) => materials.add(material))
+  })
+  materials.forEach((material) => material.dispose())
+}
+
+function render() {
+  if (!renderer || disposed) return
+  const mobileScale = camera.aspect < 0.8 ? 1.28 : 1
+  camera.position.set(pose.x * mobileScale, pose.y * mobileScale, pose.z * mobileScale)
+  camera.lookAt(pose.tx, pose.ty, pose.tz)
+  renderer.render(scene, camera)
+}
+
+function resize() {
+  if (!renderer || !viewport.value) return
+  const { width, height } = viewport.value.getBoundingClientRect()
+  camera.aspect = width / Math.max(1, height)
+  camera.updateProjectionMatrix()
+  renderer.setSize(width, height, false)
+  render()
+}
+
+function updateFromScroll(event) {
+  const progress = THREE.MathUtils.clamp(event.progress || 0, 0, 1)
+  scrollProgress.value = progress
+  activeIndex.value = Math.min(chapters.length - 1, Math.round(progress * (chapters.length - 1)))
+  cameraTimeline?.progress(progress)
+}
+
+function contextLost(event) {
+  event.preventDefault()
+  error.value = '3D 顯示已中斷，請重新整理頁面。'
+}
+
+onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: 'auto' })
+  lenis = new Lenis({
+    autoRaf: true,
+    lerp: reducedMotion.matches ? 1 : 0.075,
+    smoothWheel: !reducedMotion.matches,
+    wheelMultiplier: 0.9,
+  })
+  lenis.stop()
+  lenis.on('scroll', updateFromScroll)
+  lenis.scrollTo(0, { immediate: true, force: true })
+
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    renderer.setClearColor(0x07101a, 0)
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 0.96
+    renderer.domElement.setAttribute('role', 'img')
+    renderer.domElement.setAttribute('aria-label', '隨捲動改變視角的 DualSense 控制器')
+    viewport.value.appendChild(renderer.domElement)
+    renderer.domElement.addEventListener('webglcontextlost', contextLost)
+
+    scene = new THREE.Scene()
+    camera = new THREE.PerspectiveCamera(34, 1, 0.05, 100)
+
+    const pmrem = new THREE.PMREMGenerator(renderer)
+    const room = new RoomEnvironment()
+    environment = pmrem.fromScene(room)
+    scene.environment = environment.texture
+    room.dispose()
+    pmrem.dispose()
+
+    scene.add(new THREE.HemisphereLight(0xdde8ff, 0x08111e, 1.15))
+    const key = new THREE.DirectionalLight(0xffffff, 3.4)
+    key.position.set(-4, 6, 7)
+    scene.add(key)
+    const rim = new THREE.DirectionalLight(0x4e98ff, 5.2)
+    rim.position.set(5, 2, -5)
+    scene.add(rim)
+
+    resizeObserver = new ResizeObserver(resize)
+    resizeObserver.observe(viewport.value)
+    resize()
+
+    const response = await fetch(`${import.meta.env.BASE_URL}models/controller/controller.bin`, {
+      signal: abortController.signal,
+    })
+    if (!response.ok) throw new Error(`模型下載失敗 (${response.status})`)
+
+    const total = Number(response.headers.get('content-length'))
+    const reader = response.body.getReader()
+    const chunks = []
+    let loaded = 0
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      chunks.push(value)
+      loaded += value.length
+      if (total) loadProgress.value = Math.min(95, Math.round((loaded / total) * 95))
+    }
+
+    loading.value = '正在準備材質與光線'
+    const buffer = await new Response(
+      new Blob(chunks).stream().pipeThrough(new DecompressionStream('gzip')),
+    ).arrayBuffer()
+    if (disposed) return
+
+    const result = await new GLTFLoader().parseAsync(buffer, '')
+    if (disposed) {
+      disposeModel(result.scene)
+      return
+    }
+
+    model = result.scene
+    const materialCache = new Map()
+    model.traverse((object) => {
+      if (!object.isMesh) return
+      const sources = Array.isArray(object.material) ? object.material : [object.material]
+      const replacements = sources.map((source) => {
+        const name = source.name.toLowerCase()
+        if (materialCache.has(name)) return materialCache.get(name)
+        let options = { color: 0x141925, roughness: 0.36, metalness: 0.08 }
+        if (name.includes('white')) options = { color: 0xe3e6ec, roughness: 0.22, metalness: 0.04 }
+        else if (name.includes('emission')) options = { color: 0x4a8eff, emissive: 0x236fff, emissiveIntensity: 3.4, roughness: 0.28 }
+        else if (name.includes('glas')) options = { color: 0x72809b, roughness: 0.1, metalness: 0.12, transparent: true, opacity: 0.72 }
+        else if (name.includes('contact') || name === 'usb' || name.includes('logo')) options = { color: 0x8995aa, roughness: 0.2, metalness: 0.82 }
+        const material = new THREE.MeshStandardMaterial({ ...options, name: source.name })
+        materialCache.set(name, material)
+        return material
+      })
+      object.material = Array.isArray(object.material) ? replacements : replacements[0]
+      sources.forEach((source) => source.dispose())
+    })
+
+    const modelRotation = new THREE.Euler(Math.PI / 2 - 0.45, 0, 0)
+    model.rotation.copy(modelRotation)
+    const bounds = new THREE.Box3().setFromObject(model)
+    const center = bounds.getCenter(new THREE.Vector3())
+    const size = bounds.getSize(new THREE.Vector3())
+    const scale = 4.6 / Math.max(size.x, size.y, size.z)
+    model.scale.setScalar(scale)
+    model.position.copy(center).multiplyScalar(-scale)
+    scene.add(model)
+
+    cameraTimeline = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' }, onUpdate: render })
+    poses.slice(1).forEach((next) => {
+      cameraTimeline.to(pose, { ...next, duration: 1 })
+    })
+
+    await renderer.compileAsync(scene, camera)
+    if (disposed) return
+    loadProgress.value = 100
+    ready.value = true
+    lenis.scrollTo(0, { immediate: true, force: true })
+    lenis.start()
+    lenis.resize()
+    updateFromScroll({ progress: lenis.progress })
+  } catch (cause) {
+    if (!disposed) {
+      error.value = '無法載入 3D 產品，請重新整理頁面再試一次。'
+      console.error(cause)
+    }
+  }
+})
+
+onBeforeUnmount(() => {
+  disposed = true
+  abortController.abort()
+  lenis?.off('scroll', updateFromScroll)
+  lenis?.destroy()
+  cameraTimeline?.kill()
+  resizeObserver?.disconnect()
+  renderer?.domElement.removeEventListener('webglcontextlost', contextLost)
+  disposeModel(model)
+  environment?.dispose()
+  renderer?.dispose()
+  renderer?.domElement.remove()
+})
+</script>
+
+<template>
+  <div ref="root" class="day-26-story">
+    <div ref="viewport" class="day-26-viewport"></div>
+
+    <div class="day-26-aura" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div v-if="!ready || error" class="day-26-loading" role="status" aria-live="polite">
+      <span class="day-26-loading-brand">player / one</span>
+      <strong>{{ error ? '—' : String(loadProgress).padStart(2, '0') }}<small v-if="!error">%</small></strong>
+      <p>{{ error || loading }}</p>
+      <div v-if="!error" class="day-26-loading-track">
+        <span :style="{ transform: `scaleX(${loadProgress / 100})` }"></span>
+      </div>
+    </div>
+
+    <aside class="day-26-rail" aria-label="閱讀進度">
+      <span class="day-26-rail-label" aria-live="polite">{{ currentLabel }}</span>
+      <div class="day-26-rail-track">
+        <span :style="{ transform: `scaleY(${scrollProgress})` }"></span>
+      </div>
+      <span>{{ String(activeIndex + 1).padStart(2, '0') }} / 05</span>
+    </aside>
+
+    <section
+      v-for="(chapter, index) in chapters"
+      :key="index"
+      class="day-26-chapter"
+      :class="[`day-26-chapter-${index + 1}`, { 'is-active': activeIndex === index }]"
+      :aria-label="chapter.title"
+    >
+      <template v-if="chapter.leader">
+        <svg
+          class="day-26-leader day-26-leader-desktop"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path :d="chapter.leader.desktop.path" />
+          <circle :cx="chapter.leader.desktop.x" :cy="chapter.leader.desktop.y" r="0.3" />
+        </svg>
+        <svg
+          class="day-26-leader day-26-leader-mobile"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path :d="chapter.leader.mobile.path" />
+          <circle :cx="chapter.leader.mobile.x" :cy="chapter.leader.mobile.y" r="0.45" />
+        </svg>
+      </template>
+      <div v-if="!chapter.quiet" class="day-26-copy">
+        <p class="day-26-kicker">{{ chapter.label }}</p>
+        <h1 v-if="index === 0">DualSense<sup>®</sup></h1>
+        <h2 v-else>{{ chapter.title }}</h2>
+        <p v-if="chapter.subtitle" class="day-26-subtitle">{{ chapter.subtitle }}</p>
+        <p class="day-26-body">{{ chapter.body }}</p>
+      </div>
+      <div
+        v-if="index === 0"
+        class="day-26-scroll-cue"
+        :style="{ opacity: Math.max(0, 1 - scrollProgress * 50) }"
+        aria-hidden="true"
+      >
+        <span>SCROLL TO EXPLORE</span><i></i>
+      </div>
+    </section>
+  </div>
+</template>

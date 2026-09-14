@@ -32,3 +32,9 @@
 
 使用 Blender 4.1 執行：`blender --background docs/3d/ps5.controller.blend --python scripts/export-controller.py`。
 來源 `.blend`、匯出腳本與瀏覽器用模型都保留在專案中。
+
+## Day 26
+
+沿用控制器與深色產品舞台，將 Day 25 的自動播放改為 Lenis 捲動控制。頁面由四個滿版章節組成：產品開場、觸碰板、類比操作桿、自適應扳機。
+Three.js 畫布固定於視窗，內容隨頁面捲動；Lenis 提供平滑捲動進度，GSAP Timeline 將 0～1 的進度映射到四組攝影機位置與注視點。
+右側使用垂直細軌顯示閱讀進度與目前章節。文字保持稀疏，產品與藍色輪廓光是主要視覺。
