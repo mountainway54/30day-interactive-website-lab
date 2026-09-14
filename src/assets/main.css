@@ -1,4 +1,14 @@
 /* src/App.vue */
+.product-system {
+  --product-paper: #080a10;
+  --product-ink: #f0f3f8;
+  --product-muted: #8790a2;
+  --product-line: #2a3040;
+  --product-accent: #69a7ff;
+  --product-display: "Bahnschrift", "Microsoft JhengHei", sans-serif;
+  --product-utility: "Consolas", monospace;
+  font-family: "Aptos", "Microsoft JhengHei", sans-serif;
+}
 :root {
   color: #17212b;
   background: #c2c7cb;

@@ -1,5 +1,7 @@
 # Creative Frontend Lab UI 規範
 
+> Day 25～30 例外：依使用者確認，這六天完全不受本文件框架限制，使用 `PRODUCT-DESIGN-SYSTEM.md` 的獨立產品設計系統。
+
 這份文件記錄目前 Day 01 的介面規則。新增頁面時以此為基礎，保留系列一致性，再依當天技術調整 Demo 內容。
 
 ## CSS 管理
