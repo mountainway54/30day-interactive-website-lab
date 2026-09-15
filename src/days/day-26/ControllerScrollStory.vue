@@ -24,37 +24,22 @@ const chapters = [
   {
     label: 'TOUCH / 01',
     title: '觸碰板',
-    subtitle: '滑動／點按輸入',
-    body: '多點觸控介面',
-    leader: {
-      desktop: { path: 'M 50 31 L 60 41 Q 61 42 63 42 H 72', x: 50, y: 31 },
-      mobile: { path: 'M 50 32 L 7 75 Q 6 76 8 76 H 12', x: 50, y: 32 },
-    },
+    detail: '滑動／點按輸入 · 多點觸控介面',
   },
   {
     label: 'CONTROL / 02',
     title: '類比操作桿',
-    subtitle: '移動／瞄準／方向',
-    body: '高精度類比輸入',
-    leader: {
-      desktop: { path: 'M 49 52 L 39 62 Q 38 63 36 63 H 28', x: 49, y: 52 },
-      mobile: { path: 'M 52 45 L 22 75 Q 21 76 19 76 H 12', x: 52, y: 45 },
-    },
+    detail: '移動／瞄準／方向 · 高精度類比輸入',
   },
   {
     label: 'TENSION / 03',
     title: '自適應扳機',
-    subtitle: 'L2／R2 動態阻力',
-    body: '依情境改變力量與張力',
-    leader: {
-      desktop: { path: 'M 67 28 L 57 38 Q 56 39 54 39 H 28', x: 67, y: 28 },
-      mobile: { path: 'M 66 35 L 26 75 Q 25 76 23 76 H 12', x: 66, y: 35 },
-    },
+    detail: 'L2／R2 動態阻力 · 依情境改變力量與張力',
   },
   {
     label: '',
-    title: '控制器正面',
-    quiet: true,
+    title: 'Heighten Your Senses',
+    detail: '激發你的感官',
   },
 ]
 
@@ -293,32 +278,9 @@ onBeforeUnmount(() => {
       :class="[`day-26-chapter-${index + 1}`, { 'is-active': activeIndex === index }]"
       :aria-label="chapter.title"
     >
-      <template v-if="chapter.leader">
-        <svg
-          class="day-26-leader day-26-leader-desktop"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path :d="chapter.leader.desktop.path" />
-          <circle :cx="chapter.leader.desktop.x" :cy="chapter.leader.desktop.y" r="0.3" />
-        </svg>
-        <svg
-          class="day-26-leader day-26-leader-mobile"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path :d="chapter.leader.mobile.path" />
-          <circle :cx="chapter.leader.mobile.x" :cy="chapter.leader.mobile.y" r="0.45" />
-        </svg>
-      </template>
       <div v-if="!chapter.quiet" class="day-26-copy">
-        <p class="day-26-kicker">{{ chapter.label }}</p>
-        <h1 v-if="index === 0">DualSense<sup>®</sup></h1>
-        <h2 v-else>{{ chapter.title }}</h2>
-        <p v-if="chapter.subtitle" class="day-26-subtitle">{{ chapter.subtitle }}</p>
-        <p class="day-26-body">{{ chapter.body }}</p>
+        <h2>{{ chapter.title }}</h2>
+        <p class="day-26-detail">{{ chapter.detail }}</p>
       </div>
       <div
         v-if="index === 0"

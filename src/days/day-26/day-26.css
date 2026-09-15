@@ -11,7 +11,7 @@
 .day-26-header { position: fixed; z-index: 6; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 30px 4.5vw; pointer-events: none; }
 .day-26-brand { pointer-events: auto; color: inherit; text-decoration: none; font: 600 26px/1 var(--product-display); letter-spacing: -.08em; }
 .day-26-brand span { color: var(--product-muted); font-weight: 300; }
-.day-26-edition, .day-26-kicker, .day-26-rail, .day-26-scroll-cue { font: 10px/1.5 var(--product-utility); letter-spacing: .12em; }
+.day-26-edition, .day-26-rail, .day-26-scroll-cue { font: 10px/1.5 var(--product-utility); letter-spacing: .12em; }
 .day-26-edition { color: var(--product-muted); }
 .day-26-story { position: relative; min-height: 500svh; overflow: clip; }
 .day-26-viewport { position: fixed; z-index: 0; inset: 58px 6vw 50px; }
@@ -23,26 +23,16 @@
 .day-26-chapter { position: relative; z-index: 2; min-height: 100svh; display: flex; align-items: center; padding: 12vh 7vw; pointer-events: none; }
 .day-26-copy { position: fixed; z-index: 2; width: min(38vw, 480px); opacity: 0; transition: opacity .45s ease; }
 .day-26-chapter.is-active .day-26-copy { opacity: 1; }
-.day-26-chapter-1 .day-26-copy { top: 50%; left: 7vw; padding: 34px 68px 36px 0; background: radial-gradient(ellipse at 0 50%, rgba(7, 16, 26, .94) 0 28%, rgba(7, 16, 26, .64) 52%, transparent 76%); transform: translateY(-50%); }
-.day-26-chapter:not(.day-26-chapter-1) .day-26-copy { width: min(23vw, 300px); padding: 0; background: none; text-shadow: 0 2px 14px rgba(7, 16, 26, .9); }
-.day-26-chapter-2 .day-26-copy { top: 44%; left: 73%; }
-.day-26-chapter-3 .day-26-copy { top: 65%; left: 7%; }
-.day-26-chapter-4 .day-26-copy { top: 41%; left: 7%; }
-.day-26-leader { position: fixed; z-index: 1; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: 0; transition: opacity .45s ease; }
-.day-26-leader path { fill: none; stroke: rgba(222, 228, 237, .64); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.day-26-leader circle { fill: #e5e9ef; filter: drop-shadow(0 0 4px rgba(105, 167, 255, .8)); vector-effect: non-scaling-stroke; }
-.day-26-chapter.is-active .day-26-leader { opacity: 1; }
-.day-26-leader-mobile { display: none; }
-.day-26-kicker { margin: 0 0 22px; color: var(--day-26-blue); }
-.day-26-copy h1, .day-26-copy h2 { margin: 0; font-family: var(--product-display); font-weight: 350; line-height: .92; letter-spacing: -.065em; }
-.day-26-copy h1 { font-size: clamp(70px, 9vw, 144px); }
-.day-26-copy h1 sup { display: inline-block; margin-left: .08em; font-size: .18em; line-height: 1; letter-spacing: 0; vertical-align: top; transform: translateY(.35em); }
-.day-26-copy h2 { font-size: clamp(20px, 2vw, 30px); line-height: 1.1; letter-spacing: -.035em; white-space: nowrap; }
-.day-26-subtitle { margin: 18px 0 0; color: var(--product-ink); font: 350 clamp(20px, 2vw, 30px)/1.25 var(--product-display); letter-spacing: -.035em; }
-.day-26-body { max-width: 390px; margin: 26px 0 0; color: #a6afbd; font-size: clamp(13px, 1.15vw, 17px); line-height: 1.8; letter-spacing: .025em; }
-.day-26-chapter:not(.day-26-chapter-1) .day-26-kicker { margin-bottom: 8px; color: #aeb9c8; font-size: 9px; }
-.day-26-chapter:not(.day-26-chapter-1) .day-26-subtitle { margin-top: 9px; color: #dce2ea; font: 500 11px/1.5 var(--product-utility); letter-spacing: .08em; }
-.day-26-chapter:not(.day-26-chapter-1) .day-26-body { margin-top: 3px; color: #8793a3; font: 10px/1.55 var(--product-utility); letter-spacing: .06em; }
+.day-26-copy { width: min(23vw, 300px); padding: 0; background: none; text-shadow: 0 2px 14px rgba(7, 16, 26, .9); }
+.day-26-chapter-2 .day-26-copy { top: 44%; left: 50%; width: min(36vw, 440px); text-align: center; text-shadow: none; transform: translate(-50%, -50%); }
+.day-26-chapter-2 .day-26-copy h2, .day-26-chapter-2 .day-26-detail { color: var(--day-26-blue); }
+.day-26-chapter-3 .day-26-copy { top: 46%; left: 12%; }
+.day-26-chapter-4 .day-26-copy { top: 58%; right: 11vw; left: auto; width: min(20vw, 270px); }
+.day-26-chapter-5 .day-26-copy { bottom: 8%; left: 50%; width: min(50vw, 620px); text-align: center; transform: translateX(-50%); }
+.day-26-chapter-5 .day-26-copy h2 { font-size: clamp(18px, 1.8vw, 28px); }
+.day-26-chapter-5 .day-26-detail { margin-top: 12px; font-size: 12px; }
+.day-26-copy h2 { margin: 0; color: var(--product-ink); font: 350 clamp(20px, 2vw, 30px)/1.1 var(--product-display); letter-spacing: -.035em; white-space: nowrap; }
+.day-26-detail { margin: 9px 0 0; color: #9aa6b5; font: 10px/1.6 var(--product-utility); letter-spacing: .055em; }
 .day-26-scroll-cue { position: absolute; bottom: 38px; left: 50%; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--product-muted); transform: translateX(-50%); transition: opacity .12s linear; }
 .day-26-scroll-cue i { display: block; width: 1px; height: 42px; background: linear-gradient(var(--day-26-blue), transparent); }
 .day-26-rail { position: fixed; z-index: 5; right: 4.5vw; top: 50%; display: flex; flex-direction: column; align-items: flex-end; gap: 13px; color: var(--product-muted); transform: translateY(-50%); }
@@ -64,16 +54,14 @@
   .day-26-brand { font-size: 23px; }
   .day-26-viewport { inset: 66px 0 128px; }
   .day-26-chapter { align-items: flex-end; padding: 110px 24px 12vh; }
-  .day-26-copy { width: calc(100% - 38px); text-shadow: 0 2px 18px rgba(7, 16, 26, .95); }
-  .day-26-chapter-1 .day-26-copy { padding: 44px 42px 20px 0; background: radial-gradient(ellipse at 0 50%, rgba(7, 16, 26, .96) 0 30%, rgba(7, 16, 26, .68) 55%, transparent 80%); }
-  .day-26-chapter:not(.day-26-chapter-1) .day-26-copy { top: 78.5%; left: 12%; width: calc(76% - 24px); }
-  .day-26-leader-desktop { display: none; }
-  .day-26-leader-mobile { display: block; }
-  .day-26-copy h1 { font-size: clamp(58px, 18vw, 86px); }
+  .day-26-copy { top: 78.5%; left: 12%; width: calc(76% - 24px); text-shadow: 0 2px 18px rgba(7, 16, 26, .95); }
+  .day-26-chapter-2 .day-26-copy { top: 44%; left: 50%; width: calc(100% - 64px); text-shadow: none; transform: translate(-50%, -50%); }
+  .day-26-chapter-3 .day-26-copy { top: 72%; left: 18%; }
+  .day-26-chapter-4 .day-26-copy { top: 72%; right: 16%; left: auto; width: calc(76% - 24px); text-align: right; }
+  .day-26-chapter-5 .day-26-copy { top: auto; bottom: 8%; left: 50%; width: calc(100% - 64px); text-align: center; transform: translateX(-50%); }
+  .day-26-chapter-5 .day-26-copy h2 { font-size: clamp(18px, 5vw, 24px); }
   .day-26-copy h2 { font-size: 23px; white-space: nowrap; }
-  .day-26-body { max-width: 320px; margin-top: 18px; font-size: 13px; }
-  .day-26-subtitle { margin-top: 12px; font-size: 20px; }
-  .day-26-kicker { margin-bottom: 14px; }
+  .day-26-detail { max-width: 300px; font-size: 10px; }
   .day-26-rail { right: 18px; }
   .day-26-rail-label { display: none; }
   .day-26-scroll-cue { bottom: 28px; }
@@ -81,5 +69,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .day-26-copy, .day-26-leader { transition: none; }
+  .day-26-copy { transition: none; }
 }
