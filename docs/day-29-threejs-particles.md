@@ -1,7 +1,8 @@
 # Day 29｜Three.js 粒子系統：從爆發、漂浮到旋流
 
 倒數第二天~~ 還是繼續來繼續復刻 [aether1.ai](https://aether1.ai/) 的視覺效果，它透過許多細小的氣泡呈現出水中的感覺
-前兩天替控制器加上水波與漂浮效果，今天繼續處理周圍的粒子。
+
+聰明的你應該會想到，那不就是我們在 [day10](https://mountainway54.github.io/30day-interactive-website-lab/#/day-10) 提過的粒子效果嗎~~
 
 可以搭配今天的 [demo](https://mountainway54.github.io/30day-interactive-website-lab/#/day-29) 觀察。
 
